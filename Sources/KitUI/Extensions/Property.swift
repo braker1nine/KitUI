@@ -1,0 +1,38 @@
+//
+//  Property.swift
+//
+
+import Foundation
+import ReactiveSwift
+
+extension PropertyProtocol where Value: Equatable {
+    
+    /// Maps the Property to a `Bool`. If the current value is equal to the
+    /// passed in value, it will be true, otherwise it's false
+    /// - parameter value: A value with the same type as the Property
+    /// - returns a `Property<Bool>` indicating whether the current value equals the supplied value
+    public func `is`(_ value: Value) -> Property<Bool> {
+        self.map { $0 == value }
+    }
+}
+
+extension Property {
+    
+    /// Syntactic sugar for creating a Property with a static value
+    public static func constant(_ value: Value) -> Property<Value> {
+        Property<Value>(value: value)
+    }
+}
+
+#if os(iOS)
+import UIKit
+extension Property {
+    public func animated(duration: TimeInterval) -> Property<Value> {
+        .init(
+            initial: self.value,
+            then: self.producer.animated(duration: duration)
+        )
+    }
+}
+#endif
+
