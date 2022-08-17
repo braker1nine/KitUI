@@ -37,6 +37,16 @@ extension UITableView {
         }
         return self
     }
+
+    /// Dequeue a cell that conforms to `ReuseableTableCell` for the given index path.
+    /// WARNING: This method will crash if the cell is not registered.
+    ///
+    /// - parameter indexPath: The index path of the cell to dequeue.
+    /// - Returns: A cell that conforms to `ReuseableTableCell`.
+    public func dequeue<T: ReuseableTableCell>(for indexPath: IndexPath) -> T {
+        let cell = self.dequeueReusableCell(withIdentifier: T.reuseIdentifier, for: indexPath) as! T
+        return cell
+    }
 }
 
 extension Reactive where Base: UITableView {
