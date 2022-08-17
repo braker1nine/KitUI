@@ -2,6 +2,7 @@
 //  CACornerMask.swift
 //  
 
+#if os(iOS)
 import Foundation
 import UIKit
 
@@ -14,3 +15,4 @@ public extension CACornerMask {
     static var bottomLeft: CACornerMask = .layerMinXMaxYCorner
     static var bottomRight: CACornerMask = .layerMaxXMaxYCorner
 }
+#endif

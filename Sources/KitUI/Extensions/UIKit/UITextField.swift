@@ -2,6 +2,8 @@
 //  UITextField.swift
 //
 
+#if os(iOS)
+
 import Foundation
 import UIKit
 import ReactiveCocoa
@@ -23,3 +25,4 @@ extension Reactive where Base: UITextField {
         }
     }
 }
+#endif

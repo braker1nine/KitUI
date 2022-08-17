@@ -1,6 +1,7 @@
 //
 //  UIViewBuilder.swift
 //
+#if os(iOS)
 
 import Foundation
 import UIKit
@@ -13,3 +14,4 @@ public struct UIViewBuilder {
         components
     }
 }
+#endif

@@ -1,6 +1,7 @@
 //
 //  UIView+Shadow.swift
 //  
+#if os(iOS)
 
 import Foundation
 import UIKit
@@ -25,3 +26,4 @@ extension UIView {
         return shadow
     }
 }
+#endif

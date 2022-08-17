@@ -18,16 +18,19 @@ extension UITableView {
         return self
     }
     
+    @discardableResult
     public func dataSource(_ source: UITableViewDataSource) -> Self {
         self.dataSource = source
         return self
     }
-    
+
+    @discardableResult
     public func delegate(_ delegate: UITableViewDelegate) -> Self {
         self.delegate = delegate
         return self
     }
     
+    @discardableResult
     public func register(_ cells: [ReuseableTableCell.Type]) -> Self {
         cells.forEach { type in
             self.register(type, forCellReuseIdentifier: type.reuseIdentifier)

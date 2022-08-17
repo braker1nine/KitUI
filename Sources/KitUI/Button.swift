@@ -1,7 +1,7 @@
 //
 //  Button.swift
 //
-
+#if os(iOS)
 import Foundation
 import UIKit
 import ReactiveSwift
@@ -13,3 +13,4 @@ public func Button(animationDuration: TimeInterval = 0.2, content: (Property<Boo
     }
     return button
 }
+#endif

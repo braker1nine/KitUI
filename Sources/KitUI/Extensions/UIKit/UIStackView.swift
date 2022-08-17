@@ -1,6 +1,7 @@
 //
 //  UIStackView.swift
 //
+#if os(iOS)
 
 import Foundation
 import UIKit
@@ -126,3 +127,4 @@ extension Reactive where Base: UIStackView {
         }
     }
 }
+#endif

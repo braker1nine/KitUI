@@ -2,7 +2,7 @@
 //  UIActivityIndicatorView.swift
 //  
 //
-
+#if os(iOS)
 import Foundation
 import UIKit
 import ReactiveSwift
@@ -36,3 +36,4 @@ extension UIActivityIndicatorView {
         return self
     }
 }
+#endif

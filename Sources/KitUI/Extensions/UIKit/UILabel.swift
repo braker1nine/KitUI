@@ -1,6 +1,7 @@
 //
 //  UILabel.swift
 //
+#if os(iOS)
 
 import Foundation
 import UIKit
@@ -58,3 +59,4 @@ extension Reactive where Base: UILabel {
         makeBindingTarget { $0.numberOfLines = $1 }
     }
 }
+#endif

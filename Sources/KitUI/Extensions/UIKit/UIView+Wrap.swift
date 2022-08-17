@@ -2,6 +2,8 @@
 //  UIView+Wrap.swift
 //  
 
+#if os(iOS)
+
 import Foundation
 import UIKit
 import TinyConstraints
@@ -163,3 +165,4 @@ extension UIView {
         return constraints
     }
 }
+#endif

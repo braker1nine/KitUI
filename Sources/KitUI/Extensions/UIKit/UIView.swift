@@ -2,6 +2,8 @@
 //  UIView.swift
 //  
 
+#if os(iOS)
+
 import Foundation
 import ReactiveSwift
 import UIKit
@@ -365,3 +367,4 @@ extension Kit where Base: UIView {
         self.base.width(value)
     }
 }
+#endif

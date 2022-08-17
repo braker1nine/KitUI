@@ -5,37 +5,17 @@
 import Foundation
 import ReactiveSwift
 import CoreGraphics
-import UIKit
 
+#if os(iOS)
+import UIKit
+#endif
+
+#if os(iOS)
 extension CGFloat: SignalProducerConvertible {
     public typealias Value = CGFloat
     public typealias Error = Never
     
     public var producer: SignalProducer<CGFloat, Never> { .init(value: self) }
-}
-
-extension Bool: SignalProducerConvertible {
-    public var producer: SignalProducer<Bool, Never> { .init(value: self) }
-}
-
-extension String: SignalProducerConvertible {
-    
-    public var producer: SignalProducer<String, Never> { .init(value: self) }
-}
-
-extension Int: SignalProducerConvertible {
-    
-    public var producer: SignalProducer<Int, Never> { .init(value: self) }
-}
-
-extension Double: SignalProducerConvertible {
-    
-    public var producer: SignalProducer<Double, Never> { .init(value: self) }
-}
-
-extension Float: SignalProducerConvertible {
-    
-    public var producer: SignalProducer<Float, Never> { .init(value: self) }
 }
 
 extension BorderStyle: SignalProducerConvertible {
@@ -48,10 +28,6 @@ extension UIColor: SignalProducerConvertible {
 
 extension UIAccessibilityTraits: SignalProducerConvertible {
     public var producer: SignalProducer<UIAccessibilityTraits, Never> { .init(value: self) }
-}
-
-extension Optional: SignalProducerConvertible {
-    public var producer: SignalProducer<Wrapped?, Never> { .init(value: self) }
 }
 
 extension UIFont: SignalProducerConvertible {
@@ -88,4 +64,33 @@ extension UIImage: SignalProducerConvertible {
 
 extension NSTextAlignment: SignalProducerConvertible {
     public var producer: SignalProducer<NSTextAlignment, Never> { .init(value: self) }
+}
+#endif
+
+extension Bool: SignalProducerConvertible {
+    public var producer: SignalProducer<Bool, Never> { .init(value: self) }
+}
+
+extension String: SignalProducerConvertible {
+    
+    public var producer: SignalProducer<String, Never> { .init(value: self) }
+}
+
+extension Int: SignalProducerConvertible {
+    
+    public var producer: SignalProducer<Int, Never> { .init(value: self) }
+}
+
+extension Double: SignalProducerConvertible {
+    
+    public var producer: SignalProducer<Double, Never> { .init(value: self) }
+}
+
+extension Float: SignalProducerConvertible {
+    
+    public var producer: SignalProducer<Float, Never> { .init(value: self) }
+}
+
+extension Optional: SignalProducerConvertible {
+    public var producer: SignalProducer<Wrapped?, Never> { .init(value: self) }
 }

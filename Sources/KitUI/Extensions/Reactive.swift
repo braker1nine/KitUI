@@ -4,6 +4,7 @@
 
 import Foundation
 import ReactiveSwift
+import ReactiveCocoa
 
 extension Reactive where Base: NSObject {
     
