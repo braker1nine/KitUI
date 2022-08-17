@@ -13,23 +13,35 @@ public typealias ReuseableTableCell = UITableViewCell & Reuseable
 
 extension UITableView {
     
+    /// Reactively updates the dragInteractionEnabled state of the table view.
+    /// - parameter dragInteractionEnabled: A `SignalProducerConvertible` which will update the dragInteractionEnabled state of the table view.
+    /// - returns: The `UITableView` it's called on.
     public func dragInteractionEnabled<T: SignalProducerConvertible>(_ enabled: T) -> Self where T.Value == Bool {
         self.reactive.dragInteractionEnabled <~ enabled.producer.eraseError()
         return self
     }
     
+    /// Sets the datasource of the table view
+    /// - parameter datasource: the `UITableViewDataSource` to set as the datasource
+    /// - returns: the `UITableView` it's called on
     @discardableResult
     public func dataSource(_ source: UITableViewDataSource) -> Self {
         self.dataSource = source
         return self
     }
 
+    /// Sets the delegate of the table view.
+    /// - parameter delegate: The delegate to set.
+    /// - returns: The table view itself.
     @discardableResult
     public func delegate(_ delegate: UITableViewDelegate) -> Self {
         self.delegate = delegate
         return self
     }
     
+    /// Registers all the `ReuseableTableCell` types in the given array.
+    /// - parameter cells: An array of `ReuseableTableCell` types to register.
+    /// - returns: The `UITableView` it's called on.
     @discardableResult
     public func register(_ cells: [ReuseableTableCell.Type]) -> Self {
         cells.forEach { type in
