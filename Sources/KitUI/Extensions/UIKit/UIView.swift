@@ -75,6 +75,19 @@ extension UIView {
         self.reactive.backgroundColor <~ value.producer.eraseError()
         return self
     }
+
+    /// Wraps the view in a new view with the specified gradient behind it
+    /// - parameter gradient: A value with a gradient to set as the background
+    /// - returns: A new view with the gradient as its background
+    @discardableResult
+    public func gradient(_ layer: CAGradientLayer) -> UIView {
+        let container = UIView.wrap { self }
+        container.layer.insertSublayer(layer, below: self.layer)
+        container.reactive.signal(for: #selector(UIView.layoutSubviews)).observeValues { _ in
+            layer.frame = container.bounds
+        }
+        return container
+    }
     
     @discardableResult
     public func transform<T: SignalProducerConvertible>(_ value: T, animationDuration: TimeInterval = 0) -> Self where T.Value == CGAffineTransform {
