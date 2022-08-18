@@ -66,7 +66,7 @@ extension UIButton {
     
     @discardableResult
     public func font<T: SignalProducerConvertible>(_ font: T) -> Self where T.Value == UIFont {
-        self.titleLabel?.font(font)
+        _ = self.titleLabel?.font(font)
         return self
     }
     

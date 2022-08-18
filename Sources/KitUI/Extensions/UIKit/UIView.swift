@@ -310,8 +310,8 @@ public func Line<Color: SignalProducerConvertible>(
 /// - returns: A new `UIView` containing the space
 /// 
 /// If the size value is nil, then the space will have no height constraint and a low hugging priority
-public func VerticalSpace(size: CGFloat? = nil) -> UIView {
-    UIView.spacer(space, axis: .vertical)
+public func VerticalSpace(_ size: CGFloat? = nil) -> UIView {
+    UIView.spacer(size, axis: .vertical)
 }
 
 /// Generates horizontal space between views
@@ -319,8 +319,8 @@ public func VerticalSpace(size: CGFloat? = nil) -> UIView {
 /// - returns: A new `UIView` containing the space
 /// 
 /// If the size value is nil, then the space will have no width constraint and a low hugging priority
-public func HorizontalSpace(size: CGFloat? = nil) -> UIView {
-    UIView.spacer(space, axis: .horizontal)
+public func HorizontalSpace(_ size: CGFloat? = nil) -> UIView {
+    UIView.spacer(size, axis: .horizontal)
 }
 
 extension UIView {
