@@ -261,13 +261,61 @@ extension UIView {
     }
 }
 
-// MARK: Components - I think these should be moved into global functions
+// MARK: Components
+
+/// Allows stacking views on the Z axis
+/// - parameter verticalAlignment: The vertical alignment of the views
+/// - parameter horizontalAlignment: The horizontal alignment of the views
+/// - parameter content: The views to stack
+/// - returns A new `UIView` containing the stacked views
+/// 
+/// I'd really like to give this a different name than the SwiftUI `ZStack` component
+public func ZStack(
+    verticalAlignment: UIControl.ContentVerticalAlignment = .fill,
+    horizontalAlignment: UIControl.ContentHorizontalAlignment = .fill,
+    @UIViewBuilder _ content: () -> [UIView]
+) -> UIView {
+    UIView.zStack(verticalAlignment: verticalAlignment, horizontalAlignment: horizontalAlignment, content: content)
+}
+
+/// Convenience to easily generate a separator view with a color property
+///
+/// - parameter height: Size to make the line (defaults to 1.0)
+/// - parameter color: Color to give the line, can be reactive or constant
+/// - parameter axis: An axis for the direction of the line
+///
+public func Line<Color: SignalProducerConvertible>(
+    thickness: CGFloat = 1.0,
+    color: Color,
+    axis: NSLayoutConstraint.Axis = .horizontal
+) -> UIView where Color.Value == UIColor {
+    UIView.line(thickness: thickness, color: color, axis: axis)
+}
+
+/// Generates vertical space between views
+/// - parameter size: Size to make the space (defaults to nil)
+/// - returns: A new `UIView` containing the space
+/// 
+/// If the size value is nil, then the space will have no height constraint and a low hugging priority
+public func VerticalSpace(size: CGFloat? = nil) -> UIView {
+    UIView.spacer(space, axis: .vertical)
+}
+
+/// Generates horizontal space between views
+/// - parameter size: Size to make the space (defaults to nil)
+/// - returns: A new `UIView` containing the space
+/// 
+/// If the size value is nil, then the space will have no width constraint and a low hugging priority
+public func HorizontalSpace(size: CGFloat? = nil) -> UIView {
+    UIView.spacer(space, axis: .horizontal)
+}
+
 extension UIView {
     /// Allows stacking views vertically on top of each others
     public static func zStack(
         verticalAlignment: UIControl.ContentVerticalAlignment = .fill,
         horizontalAlignment: UIControl.ContentHorizontalAlignment = .fill,
-        content: () -> [UIView]
+        @UIViewBuilder content: () -> [UIView]
     ) -> UIView {
         let wrapper = UIView()
         
