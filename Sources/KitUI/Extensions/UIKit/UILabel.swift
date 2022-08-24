@@ -10,6 +10,14 @@ import ReactiveCocoa
 
 extension UILabel {
     
+    public convenience init<T: SignalProducerConvertible>(
+        _ text: T
+    ) where T.Value == String {
+        self.init()
+        self.numberOfLines = 0
+        _ = self.text(text)
+    }
+    
     public func font<T: SignalProducerConvertible>(_ font: T) -> Self where T.Value == UIFont? {
         self.reactive.font <~ font.producer.eraseError()
         return self
