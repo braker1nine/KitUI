@@ -90,28 +90,23 @@ extension UIView {
     ///
     /// Returns the parent wrapper `UIView`
     ///
-    public static func wrap(configuration: Property<WrapConfiguration>, _ view: () -> UIView) -> UIView {
-        let initial = configuration.value
+    public static func wrap<T: SignalProducerConvertible>(configuration: T, _ view: () -> UIView) -> UIView where T.Value == WrapConfiguration {
         let child = view()
         let view = UIView()
         view.addSubview(child)
-        var constraints = self.setupConstraints(
-            child: child,
-            insets: initial.insets,
-            verticalAlignment: initial.verticalAlignment,
-            horizontalAlignment: initial.horizontalAlignment,
-            safeAreaEdges: initial.safeAreaEdges
-        )
         
-        configuration.signal.observeValues {
-            constraints.deActivate()
+        var constraints: Constraints?
+        
+        configuration.producer.eraseError().startWithValues { config in
+            constraints?.deActivate()
             constraints = UIView.setupConstraints(
                 child: child,
-                insets: $0.insets,
-                verticalAlignment: $0.verticalAlignment,
-                horizontalAlignment: $0.horizontalAlignment,
-                safeAreaEdges: $0.safeAreaEdges
+                insets: config.insets,
+                verticalAlignment: config.verticalAlignment,
+                horizontalAlignment: config.horizontalAlignment,
+                safeAreaEdges: config.safeAreaEdges
             )
+            
             view.layoutIfNeeded()
         }
         
