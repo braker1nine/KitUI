@@ -231,6 +231,13 @@ extension UIView {
         }
     }
     
+    /// Wraps the view in another view with reactive padding
+    public func padding<T: SignalProducerConvertible>(_ insets: T) -> UIView where T.Value == UIEdgeInsets {
+        UIView.wrap(configuration: insets.producer.map { WrapConfiguration(insets: $0) }) {
+            self
+        }
+    }
+    
     /// Wraps the current view in a new view that pins the view's edges to
     /// the safe area
     /// - parameter edges: Set of edges to pin to safe area
