@@ -18,6 +18,14 @@ extension UILabel {
         _ = self.text(text)
     }
     
+    public convenience init<T: SignalProducerConvertible>(
+        _ text: T
+    ) where T.Value == NSAttributedString {
+        self.init()
+        self.numberOfLines = 0
+        _ = self.attributedText(text)
+    }
+    
     public func font<T: SignalProducerConvertible>(_ font: T) -> Self where T.Value == UIFont? {
         self.reactive.font <~ font.producer.eraseError()
         return self
@@ -50,6 +58,22 @@ extension UILabel {
     
     public func numberOfLines<T: SignalProducerConvertible>(_ number: T) -> Self where T.Value == Int {
         self.reactive.numberOfLines <~ number.producer.eraseError()
+        return self
+    }
+    
+    /// Pass values from the producer to set the attributedText of the UILabel
+    ///
+    /// A bit of an experiment, but allowing this closure based version of the method
+    /// allows consumers to run a complicated string generation inline? Might toss
+    /// this eventually?
+    public func attributedText<T: SignalProducerConvertible>(_ block: () -> T) -> Self where T.Value == NSAttributedString {
+        let text = block()
+        self.reactive.attributedText <~ text.producer.eraseError()
+        return self
+    }
+    
+    public func attributedText<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == NSAttributedString {
+        self.reactive.attributedText <~ value.producer.eraseError()
         return self
     }
 }

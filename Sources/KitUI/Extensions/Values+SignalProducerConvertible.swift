@@ -94,3 +94,7 @@ extension Float: SignalProducerConvertible {
 extension Optional: SignalProducerConvertible {
     public var producer: SignalProducer<Wrapped?, Never> { .init(value: self) }
 }
+
+extension NSAttributedString: SignalProducerConvertible {
+    public var producer: SignalProducer<NSAttributedString, Never> { .init(value: self) }
+}
