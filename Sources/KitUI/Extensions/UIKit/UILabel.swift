@@ -15,7 +15,14 @@ extension UILabel {
     ) where T.Value == String {
         self.init()
         self.numberOfLines = 0
+        self.adjustsFontForContentSizeCategory = true
         _ = self.text(text)
+    }
+    
+    public convenience init<T: SignalProducerConvertible>(
+        text: T
+    ) where T.Value == String? {
+        self.init(text.producer.map { $0 ?? ""})
     }
     
     public convenience init<T: SignalProducerConvertible>(
