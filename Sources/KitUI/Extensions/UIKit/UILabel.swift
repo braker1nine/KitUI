@@ -20,7 +20,7 @@ extension UILabel {
     }
     
     public convenience init<T: SignalProducerConvertible>(
-        text: T
+        _ text: T
     ) where T.Value == String? {
         self.init(text.producer.map { $0 ?? ""})
     }
