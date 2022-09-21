@@ -53,6 +53,13 @@ extension UIButton {
     }
     
     @discardableResult
+    public func onPress(_ action: @escaping (UIButton) -> Void) -> Self {
+        self.reactive.onPress {
+            action(self)
+        }
+    }
+    
+    @discardableResult
     public func title<T: SignalProducerConvertible>(_ title: T, for state: UIControl.State = .normal) -> Self where T.Value == String {
         self.reactive.title(for: state) <~ title.producer.eraseError()
         return self
