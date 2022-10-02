@@ -2,7 +2,7 @@
 //
 //  Kit.swift
 //
-// Based by the `Reactive` type that `ReactiveCocoa` provides
+// Based on the `Reactive` type that `ReactiveCocoa` provides
 
 import Foundation
 
