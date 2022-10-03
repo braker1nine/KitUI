@@ -167,11 +167,13 @@ extension UIView {
     // MARK: Accessibility Chainables
     @discardableResult
     public func accessibilityLabel<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == String {
-        self.ds(\.accessibilityLabel, value.producer.map { $0 as String? })
+        self.reactive.accessibilityLabel <~ value.producer.eraseError()
+        return self
     }
     
     public func accessibilityLabel<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == String? {
-        self.ds(\.accessibilityLabel, value)
+        self.reactive.accessibilityLabel <~ value.producer.eraseError()
+        return self
     }
     
     @discardableResult
@@ -404,16 +406,6 @@ extension UIView {
         view.backgroundColor = .clear
         view.isUserInteractionEnabled = false
         return view
-    }
-}
-
-// MARK: Experiments! Use at your own risk!
-extension UIView {
-    public func ds<T: SignalProducerConvertible>(_ keyPath: ReferenceWritableKeyPath<UIView, T.Value>, _ value: T) -> Self {
-        value.producer.eraseError().take(duringLifetimeOf: self).startWithValues { [weak self] value in
-            self?[keyPath: keyPath] = value
-        }
-        return self
     }
 }
 
