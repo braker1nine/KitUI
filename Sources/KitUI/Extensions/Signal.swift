@@ -37,7 +37,7 @@ extension SignalProducer {
     
     /// Map all values from signal producer to a specific value
     public func to<T>(_ value: T) -> SignalProducer<T, Error> {
-        self.list { $0.to(value) }
+        self.lift { $0.to(value) }
     }
     
     /// Drop all errors and convert. Keepiung this private...

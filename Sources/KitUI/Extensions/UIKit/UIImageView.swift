@@ -71,4 +71,12 @@ extension UIImageView {
     }
 }
 
+extension Reactive where Base: UIImageView {
+    public var contentMode: BindingTarget<UIView.ContentMode> {
+        makeBindingTarget { view, mode in
+            view.contentMode = mode
+        }
+    }
+}
+
 #endif
