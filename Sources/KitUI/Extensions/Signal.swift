@@ -12,30 +12,32 @@ extension Signal {
         self.map { _ in () }
     }
     
-    /// Map all values from signal  to a specific value
+    /// Map all values from signal to a specific value
     public func to<T>(_ value: T) -> Signal<T, Error> {
         self.map { _ in value }
     }
     
+    /// Map all values from a signal into an optional
     public func optional() -> Signal<Value?, Error> {
         self.map { $0 as Value? }
     }
 }
 
 extension SignalProducer {
-    
+
+    /// Map all values from a signal into an optional    
     public var optional: SignalProducer<Value?, Error> {
         self.lift { $0.optional() }
     }
     
     /// Convert a signalProducer value into `Void`
     public var void: SignalProducer<(), Error> {
-        self.map { _ in () }
+        self.lift { $0.void }
     }
     
     /// Map all values from signal producer to a specific value
     public func to<T>(_ value: T) -> SignalProducer<T, Error> {
-        self.map { _ in value }
+        self.list { $0.to(value) }
     }
     
     /// Drop all errors and convert. Keepiung this private...
@@ -54,10 +56,6 @@ extension SignalProducer {
             
             return SignalProducer<ObjectType, Error>(value: value)
         }
-    }
-    
-    public func asDouble() -> SignalProducer<Double, Error> where Value == CGFloat {
-        self.map { Double($0) }
     }
 }
 

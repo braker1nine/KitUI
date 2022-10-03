@@ -11,11 +11,20 @@ import UIKit
 import TinyConstraints
 
 extension UIImageView {
+
+    /// Initialize an ImageView with an image and a content mode
+    /// - parameter image: The image to use
+    /// - parameter contentMode: The content mode to use
+    /// - returns: An `UIImageView` with the specified image and content mode
     public convenience init(image: UIImage?, contentMode: UIImageView.ContentMode) {
         self.init(image: image)
         self.contentMode = contentMode
     }
     
+    /// Initialize an ImageView with a reactive image value and a content mode
+    /// - parameter image: The image producer to use
+    /// - parameter contentMode: The content mode to use
+    /// - returns: An `UIImageView` with the specified image and content mode
     public convenience init<T: SignalProducerConvertible>(image: T, contentMode: UIImageView.ContentMode = .scaleAspectFit) where T.Value == UIImage? {
         self.init(image: nil, contentMode: contentMode)
         self.reactive.image <~ image.producer.eraseError()
@@ -56,8 +65,8 @@ extension UIImageView {
     }
     
     /// TODO: Make this reactive...
-    public func contentMode(_ mode: ContentMode) -> Self {
-        self.contentMode = mode
+    public func contentMode<T: SignalProducerConvertible>(_ mode: T) -> Self where T.Value == UIView.ContentMode {
+        self.reactive.contentMode <~ mode.producer.eraseError()
         return self
     }
 }

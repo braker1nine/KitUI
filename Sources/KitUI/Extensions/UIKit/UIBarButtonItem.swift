@@ -38,6 +38,10 @@ extension Reactive where Base: UIBarButtonItem {
 }
 
 extension UIBarButtonItem {
+
+    /// Allows you to pass an arbitrary closure to run when a button is pressed
+    /// - parameter action: The action to run when the button is pressed
+    /// - returns: A `UIBarButtonItem` with the specified action
     public func onPress(_ action: @escaping () -> Void) -> Self {
         self.reactive.onPress(action)
         return self

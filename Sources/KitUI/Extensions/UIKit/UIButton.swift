@@ -35,23 +35,37 @@ extension UIButton {
         }
     }
     
+    /// Chainable method for setting the title color for the button
+    /// - parameter color: Color to use for the title (optional)
+    /// - parameter state: State to set the color for
+    /// - returns: The button
     @discardableResult
     public func title<T: SignalProducerConvertible>(color: T, state: UIControl.State = .normal) -> Self where T.Value == UIColor? {
         self.reactive.titleColor(for: state) <~ color.producer.eraseError()
         return self
     }
     
+    /// Chainable method for setting the title color for the button
+    /// - parameter color: The color to use for the title
+    /// - parameter state: The state to use for the title color
+    /// - returns: The button
     @discardableResult
     public func title<T: SignalProducerConvertible>(color: T, state: UIControl.State = .normal) -> Self where T.Value == UIColor {
         self.reactive.titleColor(for: state) <~ color.producer.eraseError()
         return self
     }
     
+    /// Chainable method for setting an action to run when the button is pressed
+    /// - parameter action: The action to run when the button is pressed
+    /// - returns: The button
     @discardableResult
     public func onPress(_ action: @escaping () -> Void) -> Self {
         self.reactive.onPress(action)
     }
     
+    /// Chainable method for setting an action to run when the button is pressed
+    /// - parameter action: The action to run when the button is pressed, receives the button as a parameter
+    /// - returns: The button
     @discardableResult
     public func onPress(_ action: @escaping (UIButton) -> Void) -> Self {
         self.reactive.onPress {
@@ -59,18 +73,29 @@ extension UIButton {
         }
     }
     
+    /// Chainable method for setting the title of the button
+    /// - parameter title: String to use as the title for the button
+    /// - parameter state: State to set the title for
+    /// - returns: The button
     @discardableResult
     public func title<T: SignalProducerConvertible>(_ title: T, for state: UIControl.State = .normal) -> Self where T.Value == String {
         self.reactive.title(for: state) <~ title.producer.eraseError()
         return self
     }
     
+    /// Chainable method for setting the image for the button
+    /// - parameter image: The image to set
+    /// - parameter state: The state to set the image for
+    /// - returns: The button
     @discardableResult
     public func image<T: SignalProducerConvertible>(_ image: T, for state: UIControl.State = .normal) -> Self where T.Value == UIImage {
         self.reactive.image(for: state) <~ image.producer.eraseError()
         return self
     }
     
+    /// Chainable method for setting the font on a button
+    /// - parameter font: The font to use for the button
+    /// - returns: The button
     @discardableResult
     public func font<T: SignalProducerConvertible>(_ font: T) -> Self where T.Value == UIFont {
         _ = self.titleLabel?.font(font)

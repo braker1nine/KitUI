@@ -27,6 +27,8 @@ extension Property {
 #if os(iOS)
 import UIKit
 extension Property {
+
+    /// A property that wraps new values from the property in an animation block
     public func animated(duration: TimeInterval) -> Property<Value> {
         .init(
             initial: self.value,
