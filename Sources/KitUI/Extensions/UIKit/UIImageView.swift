@@ -16,6 +16,7 @@ extension UIImageView {
     /// - parameter image: The image to use
     /// - parameter contentMode: The content mode to use
     /// - returns: An `UIImageView` with the specified image and content mode
+    /// - notes: Prefer using reactive initializer and content mode chainable method
     public convenience init(image: UIImage?, contentMode: UIImageView.ContentMode) {
         self.init(image: image)
         self.contentMode = contentMode
@@ -64,7 +65,10 @@ extension UIImageView {
         return self
     }
     
-    /// TODO: Make this reactive...
+    /// Chainable method for setting the content mode of the image view
+    /// - parameter contentMode: Stream of `UIImageView.ContentMode` The content mode to use for the image view
+    /// - returns: The `UIImageView`
+    /// - note: **Mutating modifier** modifies a property of the `UIImageView`
     public func contentMode<T: SignalProducerConvertible>(_ mode: T) -> Self where T.Value == UIView.ContentMode {
         self.reactive.contentMode <~ mode.producer.eraseError()
         return self

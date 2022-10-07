@@ -47,21 +47,32 @@ extension Reactive where Base: UIView {
 
 // MARK: Chainables
 extension UIView {
+
     /// Chainable tint color setting
     /// - parameter color: A value with color to set as the tint
-    ///
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func tint<T: SignalProducerConvertible>(_ color: T) -> Self where T.Value == UIColor {
         self.reactive.tintColor <~ color.producer.eraseError()
         return self
     }
     
+    /// Chainable border setting
+    /// - parameter border: A reactive value with a border to set on the view
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func border<T: SignalProducerConvertible>(_ border: T) -> Self where T.Value == BorderStyle {
         self.layer.reactive.border <~ border.producer.eraseError()
         return self
     }
     
+    /// Chainable corner radius setting
+    /// - parameter value: A reactive value with a corner radius to set on the view
+    /// - parameter corners: The corners to apply the radius to
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func cornerRadius<T: SignalProducerConvertible>(_ value: T, corners: CACornerMask = .all) -> Self where T.Value: CGFloatable {
         self.clipsToBounds = true
@@ -70,6 +81,10 @@ extension UIView {
         return self
     }
     
+    /// Chainable background color setting
+    /// - parameter value: A reactive alue with color to set as the background
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func backgroundColor<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == UIColor {
         self.reactive.backgroundColor <~ value.producer.eraseError()
@@ -89,35 +104,53 @@ extension UIView {
         return container
     }
     
+    /// Chainable transform setting
+    /// - parameter transform: A reactive value with a transform to set on the view
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func transform<T: SignalProducerConvertible>(_ value: T, animationDuration: TimeInterval = 0) -> Self where T.Value == CGAffineTransform {
+    public func transform<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == CGAffineTransform {
         value.producer.eraseError()
             .take(duringLifetimeOf: self)
             .observe(on: QueueScheduler.main)
             .startWithValues { transform in
-                UIView.animate(withDuration: animationDuration) {
-                    self.transform = transform
-                }
+                self.transform = transform
             }
         return self
     }
     
+    /// Chainable hidden setting
+    /// - parameter hidden: A reactive value with a boolean to set as the hidden state
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     public func hidden<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == Bool {
         self.reactive.isHidden <~ value.producer.eraseError()
         return self
     }
     
+    /// Chainable alpha setting
+    /// - parameter alpha: A reactive value with a float to set as the alpha
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     public func alpha<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value: CGFloatable {
         self.reactive.alpha <~ value.producer.map(\.cgFloat).eraseError()
         return self
     }
     
+    /// Chainable isUserInteractionEnabled setting
+    /// - parameter value: A reactive value with a boolean to set as the isUserInteractionEnabled
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     public func userInteractionEnabled<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == Bool {
         self.reactive.isUserInteractionEnabled <~ value.producer.eraseError()
         return self
     }
     
     /// Chainable method for setting the size on a view
+    /// - parameter width: A reactive value with a float to set as the width
+    /// - parameter height: A reactive value with a float to set as the height
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     ///
     /// ```
     /// UIView().size(width: 24, height: 24)
@@ -134,6 +167,10 @@ extension UIView {
         return self
     }
     
+    /// Chainable method for setting the height on a view
+    /// - parameter value: A reactive value with a float to set as the height
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func height<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value: CGFloatable {
         let constraint: Constraint = self.height(0)
@@ -141,6 +178,10 @@ extension UIView {
         return self
     }
     
+    /// Chainable method for setting the width on a view
+    /// - parameter value: A reactive value with a float to set as the width
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func width<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value: CGFloatable {
         let constraint: Constraint = self.width(0)
@@ -149,6 +190,9 @@ extension UIView {
     }
     
     /// Chainable method for setting a size on both dimensions of a view
+    /// - parameter value: A reactive value with a float to set as the width and height
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func size<T: SignalProducerConvertible>(_ size: T) -> Self where T.Value: CGFloatable {
         self
@@ -156,8 +200,11 @@ extension UIView {
             .height(size)
     }
     
-    @discardableResult
     /// Chainable method for setting a reactive size on a view
+    /// - parameter size: A reactive value with a size to set as the size
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
     public func size<T: SignalProducerConvertible>(_ size: T) -> Self where T.Value == CGSize {
         
         self.height(size.producer.map(\.height))
@@ -165,25 +212,31 @@ extension UIView {
     }
     
     // MARK: Accessibility Chainables
+
+    /// Chainable method for setting the accessibility label on a view
+    /// - parameter value: A reactive value with a `Stringish` to set as the accessibility label
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func accessibilityLabel<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == String {
+    public func accessibilityLabel<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value: Stringish {
         self.reactive.accessibilityLabel <~ value.producer.eraseError()
         return self
     }
     
-    public func accessibilityLabel<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == String? {
-        self.reactive.accessibilityLabel <~ value.producer.eraseError()
-        return self
-    }
-    
+    /// Chainable method for setting the accessibility hint on a view
+    /// - parameter value: A reactive `String` value to set as the accessibility hint
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func accessibilityHint<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == String {
-        value.producer.eraseError().take(duringLifetimeOf: self).startWithValues { [weak self] text in
-            self?.accessibilityHint = text
-        }
+        self.reactive.accessibilityHint <~ value.producer.eraseError()
         return self
     }
     
+    /// Chainable method for setting the accessibility value on a view
+    /// - parameter value: A reactive `String` value to set as the accessibility value
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func accessibilityValue<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == String {
         value.producer.eraseError().take(duringLifetimeOf: self).startWithValues { [weak self] text in
@@ -192,6 +245,10 @@ extension UIView {
         return self
     }
     
+    /// Chainable method for setting the accessibility traits on a view
+    /// - parameter value: A reactive `UIAccessibilityTraits` value to set as the accessibility traits
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func accessibilityTraits<T: SignalProducerConvertible>(_ traits: T) -> Self where T.Value == UIAccessibilityTraits {
         traits.producer.eraseError().take(duringLifetimeOf: self).startWithValues { [weak self] traits in
@@ -200,6 +257,10 @@ extension UIView {
         return self
     }
     
+    /// Chainable method for setting `isAccessibilityElement` on a view
+    /// - parameter value: A reactive `Bool` value to set as the `isAccessibilityElement`
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func isAccessibilityElement<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == Bool {
         value.producer.take(duringLifetimeOf: self).eraseError().startWithValues { [weak self] value in
@@ -208,17 +269,31 @@ extension UIView {
         return self
     }
     
+    /// Chainable method for setting a views compression resistance priority
+    /// - parameter priority: A `UILayoutPriority` value to set as the compression resistance priority
+    /// - parameter axis: The axis to set the compression resistance priority on
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
     public func compressionResistance(_ priority: LayoutPriority, for axis: ConstraintAxis) -> Self {
         self.setCompressionResistance(priority, for: axis)
         return self
     }
     
+    /// Chainable method for setting a view's content hugging priority
+    /// - parameter priority: A `UILayoutPriority` value to set as the content hugging priority
+    /// - parameter axis: The axis to set the content hugging priority on
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
     public func contentHugging(_ priority: UILayoutPriority, for axis: NSLayoutConstraint.Axis) -> Self {
         self.setContentHuggingPriority(priority, for: axis)
         return self
     }
     
-    /// Allows you to run imperative code inline as you're building reactive UI
+    /// Chainable method for running imperative code on a view
+    /// - parameter closure: A closure to run on the view
+    /// - returns: The current view
     public func declare(_ closure: (Self) -> Void) -> Self {
         closure(self)
         return self
@@ -226,25 +301,28 @@ extension UIView {
     
     // MARK: Chainable Composition
     
-    /// Wraps the view in another view with the specified padding
-    public func padding(_ insets: UIEdgeInsets) -> UIView {
-        UIView.wrap(insets: insets) {
-            self
-        }
+    /// Chainable method for adding padding to a view
+    /// - parameter insets: A `CGFloatable` value to set as the padding
+    /// - returns: A new view containing the current view with padding
+    /// - note: **Wrapping Modifier** this returns a new view
+    public func padding<T: SignalProducerConvertible>(_ insets: T) -> UIView where T.Value == CGFloatable {
+        self.padding(insets.producer.map(\.cgFloat).eraseError().map { UIEdgeInsets.uniform($0) })
     }
     
-    /// Wraps the view in another view with reactive padding
+    /// Chainable method for adding adding to a view
+    /// - parameter insets: A reactive `UIEdgeInsets` value to set as the padding
+    /// - returns: A new view containing the current view with padding
+    /// - note: **Wrapping Modifier** this returns a new view
     public func padding<T: SignalProducerConvertible>(_ insets: T) -> UIView where T.Value == UIEdgeInsets {
         UIView.wrap(configuration: insets.producer.map { WrapConfiguration(insets: $0) }) {
             self
         }
     }
     
-    /// Wraps the current view in a new view that pins the view's edges to
-    /// the safe area
+    /// Wraps the current view in a new view that pins the view's edges to the safe area
     /// - parameter edges: Set of edges to pin to safe area
-    ///
     /// - returns: A new `UIView` containing `self`
+    /// - note: **Wrapping Modifier** this returns a new view
     public func safeAreaEdges(_ edges: [LayoutEdge]) -> UIView {
         UIView.wrap(safeAreaEdges: edges) {
             self
@@ -254,9 +332,11 @@ extension UIView {
 
 // MARK: Chainable Touch Handlers
 extension UIView {
-    /// Adds a tap gesture to the view
-    ///
-    /// - returns: The `UIView` it was called on
+
+    /// Adds a tap gesture to the view, which will trigger the given action when tapped
+    /// - parameter callback: The action to trigger when the view is tapped
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func onTap(_ callback: @escaping () -> Void) -> Self {
         let tapGesture = UITapGestureRecognizer()
@@ -268,6 +348,9 @@ extension UIView {
     }
     
     /// Chainable method for adding a long press gesture that runs the specified block
+    /// - parameter callback: The action to trigger when the view is long pressed
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func onLongPress(_ callback: @escaping (UILongPressGestureRecognizer) -> Void) -> Self {
         let gesture = UILongPressGestureRecognizer()
@@ -305,6 +388,7 @@ public func ZStack(
 /// - parameter height: Size to make the line (defaults to 1.0)
 /// - parameter color: Color to give the line, can be reactive or constant
 /// - parameter axis: An axis for the direction of the line
+/// - returns: A new `UIView` containing the separator line
 ///
 public func Line<Color: SignalProducerConvertible>(
     thickness: CGFloat = 1.0,
@@ -334,7 +418,7 @@ public func HorizontalSpace(_ size: CGFloat? = nil) -> UIView {
 
 extension UIView {
     /// Allows stacking views vertically on top of each others
-    public static func zStack(
+    static func zStack(
         verticalAlignment: UIControl.ContentVerticalAlignment = .fill,
         horizontalAlignment: UIControl.ContentHorizontalAlignment = .fill,
         @UIViewBuilder content: () -> [UIView]
@@ -360,7 +444,7 @@ extension UIView {
     /// - parameter color: Color to give the line, can be reactive or constant
     /// - parameter axis: An axis for the direction of the line
     ///
-    public static func line<Color: SignalProducerConvertible>(thickness: CGFloat = 1.0, color: Color, axis: NSLayoutConstraint.Axis = .horizontal) -> UIView where Color.Value == UIColor {
+    static func line<Color: SignalProducerConvertible>(thickness: CGFloat = 1.0, color: Color, axis: NSLayoutConstraint.Axis = .horizontal) -> UIView where Color.Value == UIColor {
         let view = UIView()
         
         switch axis {
@@ -388,7 +472,7 @@ extension UIView {
     /// UIView.spacer(8, .vertical)
     /// ```
     ///
-    public static func spacer(_ space: CGFloat? = nil, axis: NSLayoutConstraint.Axis = .vertical) -> UIView {
+    static func spacer(_ space: CGFloat? = nil, axis: NSLayoutConstraint.Axis = .vertical) -> UIView {
         
         let view = UIView()
         if let space = space {
@@ -418,11 +502,17 @@ extension UIView {
 /// self.diesel.height(48)
 /// ```
 extension Kit where Base: UIView {
+
+    /// Sets the height of the base view to any values sent through the signal
+    /// - parameter value: A signal of height values
+    /// - returns the `base` view
     public func height<T: SignalProducerConvertible>(_ value: T) -> Base where T.Value: CGFloatable {
         self.base.height(value)
-        
     }
     
+    /// Sets the width of the base view to any values sent through the signal
+    /// - parameter value: A signal of width values
+    /// - returns the `base` view
     public func width<T: SignalProducerConvertible>(_ value: T) -> Base where T.Value: CGFloatable {
         self.base.width(value)
     }

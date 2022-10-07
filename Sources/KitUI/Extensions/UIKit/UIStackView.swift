@@ -11,6 +11,7 @@ import ReactiveCocoa
 extension UIStackView {
     
     /// Initialize a stack view with the specified properties
+    /// - note: Prefer using chainable methods rather than this initializer
     public convenience init(
         axis: NSLayoutConstraint.Axis = .vertical,
         distribution: UIStackView.Distribution = .fill,
@@ -33,6 +34,7 @@ extension UIStackView {
     }
     
     /// Initialize a stack view with the specified properties
+    /// - note: Prefer using chainable methods rather than this initializer
     public convenience init<
         T: SignalProducerConvertible,
         U: SignalProducerConvertible,
@@ -74,6 +76,7 @@ extension UIStackView {
     /// Chainable method for setting a reactive axis
     /// - parameter axis: Property with the current axis value
     /// - returns self
+    /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
     public func axis<T: SignalProducerConvertible>(_ axis: T) -> Self where T.Value == NSLayoutConstraint.Axis {
         self.reactive.axis <~ axis.producer.eraseError()
@@ -83,18 +86,27 @@ extension UIStackView {
     /// Chainable method for setting a reactive spacing
     /// - parameter axis: Property with the current spacing value
     /// - returns self
+    /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
     public func spacing<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == Double {
         self.reactive.spacing <~ value.producer.map { CGFloat($0) }.eraseError()
         return self
     }
     
+    /// Chainable method for setting a reactive distribution
+    /// - parameter value: Reactive `UIStackView.Distribution` value
+    /// - returns self
+    /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
     public func distribution<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == UIStackView.Distribution {
         self.reactive.distribution <~ value.producer.eraseError()
         return self
     }
     
+    /// Chainable method for setting a reactive alignment
+    /// - parameter value: Reactive `UIStackView.Alignment` value
+    /// - returns self
+    /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
     public func alignment<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == UIStackView.Alignment {
         self.reactive.alignment <~ value.producer.eraseError()
@@ -103,24 +115,29 @@ extension UIStackView {
 }
 
 extension Reactive where Base: UIStackView {
+
+    /// BindingTarget for the `spacing` property
     public var spacing: BindingTarget<CGFloat> {
         makeBindingTarget { (view, spacing) in
             view.spacing = spacing
         }
     }
     
+    /// BindingTarget for the `axis` property
     public var axis: BindingTarget<NSLayoutConstraint.Axis> {
         makeBindingTarget { (view, axis) in
             view.axis = axis
         }
     }
     
+    /// BindingTarget for the `distribution` property
     public var distribution: BindingTarget<UIStackView.Distribution> {
         makeBindingTarget { (view, distribution) in
             view.distribution = distribution
         }
     }
     
+    /// BindingTarget for the `alignment` property
     public var alignment: BindingTarget<UIStackView.Alignment> {
         makeBindingTarget { (view, alignment) in
             view.alignment = alignment

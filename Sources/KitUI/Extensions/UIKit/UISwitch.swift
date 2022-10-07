@@ -10,6 +10,10 @@ import ReactiveSwift
 import ReactiveCocoa
 
 extension UISwitch {
+
+    /// Initialize a switch bound to a `MutableProperty<Bool>`
+    /// - parameter property: The `MutableProperty<Bool>` to bind to the switch
+    /// - returns: A `UISwitch` bound to the specified property
     public convenience init(_ value: MutableProperty<Bool>) {
         self.init(frame: .zero)
         self.reactive.isOn <~ value.producer
@@ -19,6 +23,10 @@ extension UISwitch {
         }))
     }
     
+    /// Chainable method for setting the `onTintColor` of the switch
+    /// - parameter color: reactive `UIColor` stream of colors to use for the `onTintColor` of the switch
+    /// - returns: The `UISwitch`
+    /// - note: **Mutating modifier** modifies a property of the `UISwitch` 
     public func onTint<T: SignalProducerConvertible>(color: T) -> Self where T.Value == UIColor {
         self.reactive.onTintColor <~ color.producer.eraseError()
         return self

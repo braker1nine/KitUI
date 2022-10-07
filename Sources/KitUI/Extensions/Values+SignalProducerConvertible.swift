@@ -11,6 +11,8 @@ import UIKit
 #endif
 
 #if os(iOS)
+/// `SignalProducerConvertible` for `CGFloat`
+/// - note: Sends the value once
 extension CGFloat: SignalProducerConvertible {
     public typealias Value = CGFloat
     public typealias Error = Never
@@ -18,17 +20,24 @@ extension CGFloat: SignalProducerConvertible {
     public var producer: SignalProducer<CGFloat, Never> { .init(value: self) }
 }
 
+/// `SignalProducerConvertible` conformance for `BorderStyle`
+/// - note: Sends the value once
 extension BorderStyle: SignalProducerConvertible {
     public var producer: SignalProducer<BorderStyle, Never> { .init(value: self) }
 }
 
+/// `SignalProducerConvertible` conformance for `UIColor`
+/// - note: Sends the value once
 extension UIColor: SignalProducerConvertible {
     public var producer: SignalProducer<UIColor, Never> { .init(value: self) }
 }
 
+/// `SignalProducerConvertible` conformance for `UIAccessibilityTraits`
+/// - note: Sends the value once
 extension UIAccessibilityTraits: SignalProducerConvertible {
     public var producer: SignalProducer<UIAccessibilityTraits, Never> { .init(value: self) }
 }
+
 
 extension UIFont: SignalProducerConvertible {
     public var producer: SignalProducer<UIFont, Never> { .init(value: self) }

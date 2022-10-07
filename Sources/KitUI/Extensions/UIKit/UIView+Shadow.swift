@@ -9,10 +9,15 @@ import ReactiveSwift
 
 extension UIView {
     
-    public func shadow(
+    /// Wraps the view in a container view with a shadow
+    /// - parameter cornerRadius: The corner radius for the shadow view
+    /// - parameter hideShadow
+    /// - returns A `UIView` with the specified shadow
+    /// - note: This currently supplies a default shadow color, opacity, offset, and radius
+    public func shadow<T: SignalProducerConvertible>(
         cornerRadius: Int = 0,
-        hideShadow: Property<Bool> = .constant(false)
-    ) -> UIView {
+        hideShadow: T = Property<Bool>.constant(false)
+    ) -> UIView where T.Value == Bool {
         let shadow = UIView()
         shadow.layer.shadowColor = UIColor.black.cgColor
         shadow.layer.shadowOffset = .init(width: 0, height: 1)

@@ -15,6 +15,7 @@ extension UIButton {
     /// - parameter textType: Type to use for the font of the text
     /// - parameter type: ButtonType for the button
     /// - parameter action: Closure to run when the button is pressed
+    /// - note: Prefer chainable methods for setting properties
     public convenience init(
         title: String? = nil,
         image: UIImage? = nil,
@@ -39,6 +40,7 @@ extension UIButton {
     /// - parameter color: Color to use for the title (optional)
     /// - parameter state: State to set the color for
     /// - returns: The button
+    /// - note: **Mutating modifier** modifies a property of the button
     @discardableResult
     public func title<T: SignalProducerConvertible>(color: T, state: UIControl.State = .normal) -> Self where T.Value == UIColor? {
         self.reactive.titleColor(for: state) <~ color.producer.eraseError()
@@ -49,6 +51,7 @@ extension UIButton {
     /// - parameter color: The color to use for the title
     /// - parameter state: The state to use for the title color
     /// - returns: The button
+    /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
     public func title<T: SignalProducerConvertible>(color: T, state: UIControl.State = .normal) -> Self where T.Value == UIColor {
         self.reactive.titleColor(for: state) <~ color.producer.eraseError()
@@ -58,6 +61,7 @@ extension UIButton {
     /// Chainable method for setting an action to run when the button is pressed
     /// - parameter action: The action to run when the button is pressed
     /// - returns: The button
+    /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
     public func onPress(_ action: @escaping () -> Void) -> Self {
         self.reactive.onPress(action)
@@ -66,6 +70,7 @@ extension UIButton {
     /// Chainable method for setting an action to run when the button is pressed
     /// - parameter action: The action to run when the button is pressed, receives the button as a parameter
     /// - returns: The button
+    /// - note: **Mutating modifier** modifies the `UIButton`
     @discardableResult
     public func onPress(_ action: @escaping (UIButton) -> Void) -> Self {
         self.reactive.onPress {
@@ -74,9 +79,10 @@ extension UIButton {
     }
     
     /// Chainable method for setting the title of the button
-    /// - parameter title: String to use as the title for the button
+    /// - parameter title: Reactive String to use as the title for the button
     /// - parameter state: State to set the title for
     /// - returns: The button
+    /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
     public func title<T: SignalProducerConvertible>(_ title: T, for state: UIControl.State = .normal) -> Self where T.Value == String {
         self.reactive.title(for: state) <~ title.producer.eraseError()
@@ -84,9 +90,10 @@ extension UIButton {
     }
     
     /// Chainable method for setting the image for the button
-    /// - parameter image: The image to set
+    /// - parameter image: Reactive image to set
     /// - parameter state: The state to set the image for
     /// - returns: The button
+    /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
     public func image<T: SignalProducerConvertible>(_ image: T, for state: UIControl.State = .normal) -> Self where T.Value == UIImage {
         self.reactive.image(for: state) <~ image.producer.eraseError()
@@ -96,6 +103,7 @@ extension UIButton {
     /// Chainable method for setting the font on a button
     /// - parameter font: The font to use for the button
     /// - returns: The button
+    /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
     public func font<T: SignalProducerConvertible>(_ font: T) -> Self where T.Value == UIFont {
         _ = self.titleLabel?.font(font)
