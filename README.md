@@ -20,6 +20,16 @@ Horizontal {
 ```
 
 # Buttons
+Currently there's a simple button creation method which allows consumer to wrap any content in a button. I generally prefer this to attempt to use UIKit's limited UIButton style implementations
+
+```swift
+Button { pressed in
+    UILabel("Action")
+        .padding(.uniform(16))
+        .backgroundColor(pressed.map { $0 ? UIColor.gray : UIColor.blue })
+        .cornerRadius(4)
+}
+```
 
 
 # Modifiers
