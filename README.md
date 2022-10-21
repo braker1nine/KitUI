@@ -41,6 +41,4 @@ UILabel("text")
 
 
 # Reactivity
-Many of `KitUI`s modifiers use `ReactiveSwift` to enable dynamic streams of values to be passed into them
-
-# Animation
+Many of `KitUI`s modifiers use `ReactiveSwift` to enable dynamic streams of values to be passed into them. I'm investigating using `AsyncStreams` a bit more. But a lot of `KitUI` is still powered by `ReactiveCocoa` under the hood
