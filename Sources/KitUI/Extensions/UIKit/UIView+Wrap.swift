@@ -11,11 +11,25 @@ import ReactiveSwift
 
 /// Represents wrapping configuration for a view
 public struct WrapConfiguration: Equatable {
+
+    /// The insets to use for wrapping
     let insets: UIEdgeInsets
+
+    /// The vertical alignment for the child view
     let verticalAlignment: UIControl.ContentVerticalAlignment
+
+    /// The horizontal alignment for the child view
     let horizontalAlignment: UIControl.ContentHorizontalAlignment
+
+    /// Safe area edges to respect when wrapping
     let safeAreaEdges: [LayoutEdge]
     
+    /// Initializes a new `WrapConfiguration`
+    /// - parameter insets: The insets to use for wrapping
+    /// - parameter verticalAlignment: The vertical alignment for the child view
+    /// - parameter horizontalAlignment: The horizontal alignment for the child view
+    /// - parameter safeAreaEdges: Safe area edges to respect when wrapping
+    /// - returns: A new `WrapConfiguration`
     public init(
         insets: UIEdgeInsets = .zero,
         verticalAlignment: UIControl.ContentVerticalAlignment = .fill,
@@ -55,6 +69,7 @@ extension UIView {
         )
     }
     
+    @deprecated("Use wrap(insets:verticalAlignment:horizontalAlignment:safeAreaEdges:_:) instead")
     public static func wrap(
         insets: UIEdgeInsets = .zero,
         verticalAlignment: UIControl.ContentVerticalAlignment = .fill,
@@ -84,12 +99,10 @@ extension UIView {
     
     /// Wrap a view with a reactive `WrapConfiguration` value. This allows you to reactively change the insets,
     /// content mode, or use of safe areas
-    /// - parameter configuration: A `Value` with `WrapConfiguration` value to supply to the view. This will update
+    /// - parameter configuration: A `SignalProducerConvertible` with `WrapConfiguration` value to supply to the view. This will update
     ///   the child view's wrap configuration reactively
     /// - parameter view: A closure which returns the view to add as a child
-    ///
-    /// Returns the parent wrapper `UIView`
-    ///
+    /// - returns: A new `UIView` with the specified configuration
     public static func wrap<T: SignalProducerConvertible>(configuration: T, _ view: () -> UIView) -> UIView where T.Value == WrapConfiguration {
         let child = view()
         let view = UIView()
