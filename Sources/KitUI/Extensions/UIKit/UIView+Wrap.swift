@@ -69,8 +69,7 @@ extension UIView {
         )
     }
     
-    @deprecated("Use wrap(insets:verticalAlignment:horizontalAlignment:safeAreaEdges:_:) instead")
-    public static func wrap(
+    private static func wrap(
         insets: UIEdgeInsets = .zero,
         verticalAlignment: UIControl.ContentVerticalAlignment = .fill,
         horizontalAlignment: UIControl.ContentHorizontalAlignment = .fill,
