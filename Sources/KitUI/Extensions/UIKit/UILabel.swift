@@ -45,19 +45,25 @@ extension UILabel {
     
     /// Chainable method for setting the font of the label
     /// - parameter font: `UIFont?` The font to use for the label
+    /// - parameter scale: `Bool` indicating whether it should automatically scale
+    /// - parameter relativeTo: `UIFont.TextStyle` indicates what metric to scale against. Nil value will use
+    ///   the `UIFontMetrics.default`
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func font<T: SignalProducerConvertible>(_ font: T) -> Self where T.Value == UIFont? {
-        self.reactive.font <~ font.producer.eraseError()
+    public func font<T: SignalProducerConvertible>(_ font: T, scale: Bool = true, relativeTo style: UIFont.TextStyle? = nil) -> Self where T.Value == UIFont? {
+        self.reactive.font <~ font.producer.eraseError().map { scale ? $0?.scaled(withStyle: style) : $0 }
         return self
     }
     
     /// Chainable method for setting the font of the label
     /// - parameter font: `UIFont` The font to use for the label
+    /// - parameter scale: `Bool` indicating whether it should automatically scale
+    /// - parameter relativeTo: `UIFont.TextStyle` indicates what metric to scale against. Nil value will use
+    ///   the `UIFontMetrics.default`
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func font<T: SignalProducerConvertible>(_ font: T) -> Self where T.Value == UIFont {
-        self.reactive.font <~ font.producer.eraseError()
+    public func font<T: SignalProducerConvertible>(_ font: T, scale: Bool = true, relativeTo style: UIFont.TextStyle? = nil) -> Self where T.Value == UIFont {
+        self.reactive.font <~ font.producer.eraseError().map { scale ? $0.scaled(withStyle: style) : $0 }
         return self
     }
     
