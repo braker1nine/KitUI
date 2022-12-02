@@ -115,3 +115,7 @@ extension UIEdgeInsets: SignalProducerConvertible {
 extension WrapConfiguration: SignalProducerConvertible {
     public var producer: SignalProducer<WrapConfiguration, Never> { .init(value: self) }
 }
+
+extension UIView.ContentMode: SignalProducerConvertible {
+    public var producer: SignalProducer<UIView.ContentMode, Never> { .init(value: self) }
+}
