@@ -23,6 +23,12 @@ extension Reactive where Base: UIView {
             $0.accessibilityLabel = $1
         }
     }
+    
+    public var accessibilityHint: BindingTarget<String?> {
+        makeBindingTarget {
+            $0.accessibilityHint = $1
+        }
+    }
 }
 
 // MARK: Reactive Values
@@ -219,7 +225,7 @@ extension UIView {
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func accessibilityLabel<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value: Stringish {
-        self.reactive.accessibilityLabel <~ value.producer.eraseError()
+        self.reactive.accessibilityLabel <~ value.producer.map(\.stringValue).eraseError()
         return self
     }
     
