@@ -4,6 +4,7 @@
 
 import Foundation
 import CoreGraphics
+import ReactiveSwift
 
 /// A protocol indicating a value that can be converted to a CGFloat
 ///

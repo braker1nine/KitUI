@@ -107,3 +107,11 @@ extension Optional: SignalProducerConvertible {
 extension NSAttributedString: SignalProducerConvertible {
     public var producer: SignalProducer<NSAttributedString, Never> { .init(value: self) }
 }
+
+extension UIEdgeInsets: SignalProducerConvertible {
+    public var producer: SignalProducer<UIEdgeInsets, Never> { .init(value: self) }
+}
+
+extension WrapConfiguration: SignalProducerConvertible {
+    public var producer: SignalProducer<WrapConfiguration, Never> { .init(value: self) }
+}

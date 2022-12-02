@@ -325,6 +325,25 @@ extension UIView {
         }
     }
     
+    /// Chainable method for adding adding to a view
+    /// - parameter insets: A `UIEdgeInsets` value to set as the padding
+    /// - returns: A new view containing the current view with padding
+    /// - note: **Wrapping Modifier** this returns a new view
+    public func padding(_ insets: UIEdgeInsets) -> UIView {
+        UIView.wrap(configuration: WrapConfiguration(insets: insets)) {
+            self
+        }
+    }
+    
+    /// Chainable method for adding padding to a view
+    /// - parameter insets: A `CGFloatable` value to set as the padding
+    /// - returns: A new view containing the current view with padding
+    /// - note: **Wrapping Modifier** this returns a new view
+    public func padding(_ insets: CGFloatable) -> UIView {
+        self.padding(SignalProducer<CGFloatable, Never>(value: insets))
+    }
+
+    
     /// Wraps the current view in a new view that pins the view's edges to the safe area
     /// - parameter edges: Set of edges to pin to safe area
     /// - returns: A new `UIView` containing `self`
