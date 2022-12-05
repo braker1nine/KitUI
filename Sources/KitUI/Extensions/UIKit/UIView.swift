@@ -441,6 +441,15 @@ public func HorizontalSpace(_ size: CGFloat? = nil) -> UIView {
     UIView.spacer(size, axis: .horizontal)
 }
 
+/// Generates a generally flexible spacer view
+public func FlexibleSpace() -> UIView {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    view.setContentHuggingPriority(.init(1), for: .vertical)
+    view.setContentHuggingPriority(.init(1), for: .horizontal)
+    return view
+}
+
 extension UIView {
     /// Allows stacking views vertically on top of each others
     static func zStack(
