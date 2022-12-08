@@ -211,9 +211,12 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies the state of the current view
     @discardableResult
-    public func aspectRatio<T: SignalProducerConvertible>(_ ratio: T) -> Self where T.Value == CGFloat {
-        let constraint: Constraint = self.aspectRatio(1.0)
-        constraint.reactive.constant <~ ratio.producer.eraseError()
+    public func aspectRatio<T: SignalProducerConvertible>(_ ratio: T) -> Self where T.Value == Double {
+        var constraint: Constraint?
+        ratio.producer.take(duringLifetimeOf: self).eraseError().startWithValues { [weak self] multiplier in
+            constraint?.isActive = false
+            constraint = self?.aspectRatio(multiplier)
+        }
         return self
     }
     
@@ -560,6 +563,10 @@ extension Kit where Base: UIView {
     /// - returns the `base` view
     public func width<T: SignalProducerConvertible>(_ value: T) -> Base where T.Value: CGFloatable {
         self.base.width(value)
+    }
+    
+    public func aspectRatio<T: SignalProducerConvertible>(_ value: T) -> Base where T.Value == Double {
+        self.base.aspectRatio(value)
     }
 }
 #endif
