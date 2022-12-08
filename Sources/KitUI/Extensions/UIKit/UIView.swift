@@ -206,6 +206,17 @@ extension UIView {
             .height(size)
     }
     
+    /// Chainable method for setting an aspect ratio on a view
+    /// - parameter ratio: A reactive aspect ratio to use
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies the state of the current view
+    @discardableResult
+    public func aspectRatio<T: SignalProducerConvertible>(_ ratio: T) -> Self where T.Value == CGFloat {
+        let constraint: Constraint = self.aspectRatio(1.0)
+        constraint.reactive.constant <~ ratio.producer.eraseError()
+        return self
+    }
+    
     /// Chainable method for setting a reactive size on a view
     /// - parameter size: A reactive value with a size to set as the size
     /// - returns: The current view
