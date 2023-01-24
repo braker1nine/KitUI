@@ -81,11 +81,11 @@ extension UIView {
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func cornerRadius(
-        _ value: any SignalProducerConvertible<CGFloat, Never>,
+        _ value: any SignalProducerConvertible<Double, Never>,
         corners: CACornerMask = .all
     ) -> Self{
         self.clipsToBounds = true
-        self.layer.reactive.cornerRadius <~ value.producer
+        self.layer.reactive.cornerRadius <~ value.producer.map(\.cgFloat)
         self.layer.maskedCorners = corners
         return self
     }
