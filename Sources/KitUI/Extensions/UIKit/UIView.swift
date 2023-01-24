@@ -244,7 +244,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func accessibilityLabel(_ value: any SignalProducerConvertible<String?, Never>) -> Self {
+    public func accessibilityLabel(_ value: any SignalProducerConvertible<String, Never>) -> Self {
         self.reactive.accessibilityLabel <~ value.producer
         return self
     }
