@@ -81,11 +81,11 @@ extension UIView {
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func cornerRadius(
-        _ value: any SignalProducerConvertible<any CGFloatable, Never>,
+        _ value: any SignalProducerConvertible<CGFloat, Never>,
         corners: CACornerMask = .all
     ) -> Self{
         self.clipsToBounds = true
-        self.layer.reactive.cornerRadius <~ value.producer.map(\.cgFloat)
+        self.layer.reactive.cornerRadius <~ value.producer
         self.layer.maskedCorners = corners
         return self
     }
@@ -167,8 +167,8 @@ extension UIView {
     ///
     @discardableResult
     public func size(
-        width: (any SignalProducerConvertible<any CGFloatable, Never>)? = nil,
-        height: (any SignalProducerConvertible<any CGFloatable, Never>)? = nil
+        width: (any SignalProducerConvertible<Double, Never>)? = nil,
+        height: (any SignalProducerConvertible<Double, Never>)? = nil
     ) -> Self {
         if let width = width {
             _ = self.kit.width(width)
@@ -184,7 +184,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func height(_ value: any SignalProducerConvertible<any CGFloatable, Never>) -> Self {
+    public func height(_ value: any SignalProducerConvertible<Double, Never>) -> Self {
         let constraint: Constraint = self.height(0)
         constraint.reactive.constant <~ value.producer.map(\.cgFloat)
         return self
@@ -195,7 +195,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func width(_ value: any SignalProducerConvertible<any CGFloatable, Never>) -> Self {
+    public func width(_ value: any SignalProducerConvertible<Double, Never>) -> Self {
         let constraint: Constraint = self.width(0)
         constraint.reactive.constant <~ value.producer.map(\.cgFloat)
         return self
@@ -206,7 +206,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func size(_ size: any SignalProducerConvertible<any CGFloatable, Never>) -> Self {
+    public func size(_ size: any SignalProducerConvertible<Double, Never>) -> Self {
         self
             .width(size)
             .height(size)
@@ -233,8 +233,8 @@ extension UIView {
     @discardableResult
     public func size(_ size: any SignalProducerConvertible<CGSize, Never>) -> Self {
         
-        self.height(size.producer.map(\.height).map { $0 as CGFloatable })
-            .width(size.producer.map(\.width).map { $0 as CGFloatable })
+        self.height(size.producer.map(\.height).map(Double.init))
+            .width(size.producer.map(\.width).map(Double.init))
     }
     
     // MARK: Accessibility Chainables
@@ -331,7 +331,7 @@ extension UIView {
     /// - parameter insets: A `CGFloatable` value to set as the padding
     /// - returns: A new view containing the current view with padding
     /// - note: **Wrapping Modifier** this returns a new view
-    public func padding(_ insets: any SignalProducerConvertible<any CGFloatable, Never>) -> UIView {
+    public func padding(_ insets: any SignalProducerConvertible<Double, Never>) -> UIView {
         self.padding(insets.producer.map(\.cgFloat).map { UIEdgeInsets.uniform($0) })
     }
     
@@ -360,7 +360,7 @@ extension UIView {
     /// - returns: A new view containing the current view with padding
     /// - note: **Wrapping Modifier** this returns a new view
     public func padding(_ insets: CGFloatable) -> UIView {
-        self.padding(SignalProducer<CGFloatable, Never>(value: insets))
+        self.padding(SignalProducer<Double, Never>(value: Double(insets.cgFloat)))
     }
 
     
@@ -564,14 +564,14 @@ extension Kit where Base: UIView {
     /// Sets the height of the base view to any values sent through the signal
     /// - parameter value: A signal of height values
     /// - returns the `base` view
-    public func height(_ value: any SignalProducerConvertible<any CGFloatable, Never>) -> Base {
+    public func height(_ value: any SignalProducerConvertible<Double, Never>) -> Base {
         self.base.height(value)
     }
     
     /// Sets the width of the base view to any values sent through the signal
     /// - parameter value: A signal of width values
     /// - returns the `base` view
-    public func width(_ value: any SignalProducerConvertible<any CGFloatable, Never>) -> Base {
+    public func width(_ value: any SignalProducerConvertible<Double, Never>) -> Base {
         self.base.width(value)
     }
     

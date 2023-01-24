@@ -39,7 +39,7 @@ extension UIStackView {
         axis: any SignalProducerConvertible<NSLayoutConstraint.Axis, Never> = NSLayoutConstraint.Axis.vertical,
         distribution: any SignalProducerConvertible<UIStackView.Distribution, Never> = UIStackView.Distribution.fill,
         alignment: any SignalProducerConvertible<UIStackView.Alignment, Never> = UIStackView.Alignment.fill,
-        spacing: any SignalProducerConvertible<any CGFloatable, Never> = SignalProducer<CGFloatable, Never>(value: 0),
+        spacing: any SignalProducerConvertible<CGFloat, Never> = SignalProducer<CGFloat, Never>(value: 0),
         @UIViewBuilder builder: () -> [UIView]
     ) {
         self.init(frame: .zero)
@@ -79,7 +79,7 @@ extension UIStackView {
     /// - returns self
     /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
-    public func spacing(_ value: any SignalProducerConvertible<any CGFloatable, Never>) -> Self {
+    public func spacing(_ value: any SignalProducerConvertible<Double, Never>) -> Self {
         self.reactive.spacing <~ value.producer.map(\.cgFloat)
         return self
     }
