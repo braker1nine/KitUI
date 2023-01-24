@@ -23,6 +23,16 @@ extension UILabel {
         _ = self.text(text)
     }
     
+    /// Initialize a `UILabel` with a reactive `String` value
+    /// - parameter text: The `String` stream of values to bind to the `UILabel`
+    /// - returns: A `UILabel` bound to the specified stream
+    /// - note: Sets the `numberOfLines` to `0` to allow for multiline text
+    public convenience init(
+        _ text: any SignalProducerConvertible<String, Never>
+    ) {
+        self.init(text.producer.map { $0 as String? })
+    }
+    
     /// Intialize a label with an attributed text producer
     /// - parameter text: The attributed text producer to use for the label
     /// - returns: A `UILabel` with the specified attributed text
