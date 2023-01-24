@@ -15,8 +15,8 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/ReactiveCocoa/ReactiveSwift", .upToNextMajor(from: "6.0.0")),
-        .package(url: "https://github.com/ReactiveCocoa/ReactiveCocoa", .upToNextMajor(from: "11.0.0")),
+        .package(url: "https://github.com/ReactiveCocoa/ReactiveSwift", .upToNextMajor(from: "7.0.0")),
+        .package(url: "https://github.com/ReactiveCocoa/ReactiveCocoa", .upToNextMajor(from: "12.0.0")),
         .package(url: "https://github.com/roberthein/TinyConstraints", .upToNextMajor(from: "4.0.0"))
     ],
     targets: [

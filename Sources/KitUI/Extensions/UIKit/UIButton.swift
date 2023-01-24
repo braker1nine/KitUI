@@ -42,8 +42,11 @@ extension UIButton {
     /// - returns: The button
     /// - note: **Mutating modifier** modifies a property of the button
     @discardableResult
-    public func title<T: SignalProducerConvertible>(color: T, state: UIControl.State = .normal) -> Self where T.Value == UIColor? {
-        self.reactive.titleColor(for: state) <~ color.producer.eraseError()
+    public func title(
+        color: any SignalProducerConvertible<UIColor?, Never>,
+        state: UIControl.State = .normal
+    ) -> Self {
+        self.reactive.titleColor(for: state) <~ color.producer
         return self
     }
     
@@ -53,8 +56,11 @@ extension UIButton {
     /// - returns: The button
     /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
-    public func title<T: SignalProducerConvertible>(color: T, state: UIControl.State = .normal) -> Self where T.Value == UIColor {
-        self.reactive.titleColor(for: state) <~ color.producer.eraseError()
+    public func title(
+        color: any SignalProducerConvertible<UIColor, Never>,
+        state: UIControl.State = .normal
+    ) -> Self {
+        self.reactive.titleColor(for: state) <~ color.producer
         return self
     }
     
@@ -84,8 +90,11 @@ extension UIButton {
     /// - returns: The button
     /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
-    public func title<T: SignalProducerConvertible>(_ title: T, for state: UIControl.State = .normal) -> Self where T.Value == String {
-        self.reactive.title(for: state) <~ title.producer.eraseError()
+    public func title(
+        _ title: any SignalProducerConvertible<String, Never>,
+        for state: UIControl.State = .normal
+    ) -> Self {
+        self.reactive.title(for: state) <~ title.producer
         return self
     }
     
@@ -95,8 +104,11 @@ extension UIButton {
     /// - returns: The button
     /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
-    public func image<T: SignalProducerConvertible>(_ image: T, for state: UIControl.State = .normal) -> Self where T.Value == UIImage {
-        self.reactive.image(for: state) <~ image.producer.eraseError()
+    public func image(
+        _ image: any SignalProducerConvertible<UIImage, Never>,
+        for state: UIControl.State = .normal
+    ) -> Self {
+        self.reactive.image(for: state) <~ image.producer
         return self
     }
     
@@ -105,7 +117,7 @@ extension UIButton {
     /// - returns: The button
     /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
-    public func font<T: SignalProducerConvertible>(_ font: T) -> Self where T.Value == UIFont {
+    public func font(_ font: any SignalProducerConvertible<UIFont, Never>) -> Self {
         _ = self.titleLabel?.font(font)
         return self
     }
