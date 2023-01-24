@@ -26,7 +26,7 @@ extension UIView {
         shadow.layer.cornerRadius = .init(cornerRadius)
         
         shadow.addSubview(self)
-        self.cornerRadius(CGFloat(cornerRadius))
+        self.cornerRadius(Double(cornerRadius))
         self.edgesToSuperview()
         return shadow
     }
