@@ -141,7 +141,7 @@ extension UIView {
     /// - parameter alpha: A reactive value with a float to set as the alpha
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
-    public func alpha(_ value: any SignalProducerConvertible<CGFloatable, Never>) -> Self {
+    public func alpha(_ value: any SignalProducerConvertible<Double, Never>) -> Self {
         self.reactive.alpha <~ value.producer.map(\.cgFloat)
         return self
     }
@@ -240,12 +240,12 @@ extension UIView {
     // MARK: Accessibility Chainables
 
     /// Chainable method for setting the accessibility label on a view
-    /// - parameter value: A reactive value with a `Stringish` to set as the accessibility label
+    /// - parameter value: A reactive value with a `String?` to set as the accessibility label
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func accessibilityLabel(_ value: any SignalProducerConvertible<any Stringish, Never>) -> Self {
-        self.reactive.accessibilityLabel <~ value.producer.map(\.stringValue)
+    public func accessibilityLabel(_ value: any SignalProducerConvertible<String?, Never>) -> Self {
+        self.reactive.accessibilityLabel <~ value.producer
         return self
     }
     
@@ -328,7 +328,7 @@ extension UIView {
     // MARK: Chainable Composition
     
     /// Chainable method for adding padding to a view
-    /// - parameter insets: A `CGFloatable` value to set as the padding
+    /// - parameter insets: A `Double` value to set as the padding
     /// - returns: A new view containing the current view with padding
     /// - note: **Wrapping Modifier** this returns a new view
     public func padding(_ insets: any SignalProducerConvertible<Double, Never>) -> UIView {

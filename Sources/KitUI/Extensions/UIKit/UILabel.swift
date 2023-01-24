@@ -15,7 +15,7 @@ extension UILabel {
     /// - returns: A `UILabel` bound to the specified stream
     /// - note: Sets the `numberOfLines` to `0` to allow for multiline text
     public convenience init(
-        _ text: any SignalProducerConvertible<any Stringish, Never>
+        _ text: any SignalProducerConvertible<String?, Never>
     ) {
         self.init()
         self.numberOfLines = 0
@@ -70,7 +70,7 @@ extension UILabel {
     /// - parameter text: `String?` The text to use for the label
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func text(_ text: any SignalProducerConvertible<any Stringish, Never>) -> Self {
+    public func text(_ text: any SignalProducerConvertible<String?, Never>) -> Self {
         self.reactive.text <~ text.producer.map(\.stringValue)
         return self
     }

@@ -15,8 +15,8 @@ extension UITextField {
     /// - parameter text: The stream of values to send to the text of the textField
     /// - returns: The `UITextField` it's called on
     /// - note: **Modifies the `UITextField`**
-    public func text(_ text: any SignalProducerConvertible<any Stringish, Never>) -> Self {
-        self.reactive.text <~ text.producer.map(\.stringValue)
+    public func text(_ text: any SignalProducerConvertible<String?, Never>) -> Self {
+        self.reactive.text <~ text.producer
         return self
     }
     
