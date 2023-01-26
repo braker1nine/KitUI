@@ -103,7 +103,7 @@ extension UIView {
     /// - parameter view: A closure which returns the view to add as a child
     /// - returns: A new `UIView` with the specified configuration
     public static func wrap(
-        configuration: any SignalProducerConvertible<WrapConfiguration, Never>,
+        configuration: some SignalProducerConvertible<WrapConfiguration, Never>,
         _ view: () -> UIView
     ) -> UIView {
         let child = view()

@@ -36,10 +36,10 @@ extension UIStackView {
     /// Initialize a stack view with the specified properties
     /// - note: Prefer using chainable methods rather than this initializer
     public convenience init(
-        axis: any SignalProducerConvertible<NSLayoutConstraint.Axis, Never> = NSLayoutConstraint.Axis.vertical,
-        distribution: any SignalProducerConvertible<UIStackView.Distribution, Never> = UIStackView.Distribution.fill,
-        alignment: any SignalProducerConvertible<UIStackView.Alignment, Never> = UIStackView.Alignment.fill,
-        spacing: any SignalProducerConvertible<CGFloat, Never> = SignalProducer<CGFloat, Never>(value: 0),
+        axis: some SignalProducerConvertible<NSLayoutConstraint.Axis, Never> = NSLayoutConstraint.Axis.vertical,
+        distribution: some SignalProducerConvertible<UIStackView.Distribution, Never> = UIStackView.Distribution.fill,
+        alignment: some SignalProducerConvertible<UIStackView.Alignment, Never> = UIStackView.Alignment.fill,
+        spacing: some SignalProducerConvertible<CGFloat, Never> = SignalProducer<CGFloat, Never>(value: 0),
         @UIViewBuilder builder: () -> [UIView]
     ) {
         self.init(frame: .zero)
@@ -69,7 +69,7 @@ extension UIStackView {
     /// - returns self
     /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
-    public func axis(_ axis: any SignalProducerConvertible<NSLayoutConstraint.Axis, Never>) -> Self {
+    public func axis(_ axis: some SignalProducerConvertible<NSLayoutConstraint.Axis, Never>) -> Self {
         self.reactive.axis <~ axis.producer
         return self
     }
@@ -79,7 +79,7 @@ extension UIStackView {
     /// - returns self
     /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
-    public func spacing(_ value: any SignalProducerConvertible<Double, Never>) -> Self {
+    public func spacing(_ value: some SignalProducerConvertible<Double, Never>) -> Self {
         self.reactive.spacing <~ value.producer.map(\.cgFloat)
         return self
     }
@@ -89,7 +89,7 @@ extension UIStackView {
     /// - returns self
     /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
-    public func distribution(_ value: any SignalProducerConvertible<UIStackView.Distribution, Never>) -> Self {
+    public func distribution(_ value: some SignalProducerConvertible<UIStackView.Distribution, Never>) -> Self {
         self.reactive.distribution <~ value.producer
         return self
     }
@@ -99,7 +99,7 @@ extension UIStackView {
     /// - returns self
     /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
-    public func alignment(_ value: any SignalProducerConvertible<UIStackView.Alignment, Never>) -> Self {
+    public func alignment(_ value: some SignalProducerConvertible<UIStackView.Alignment, Never>) -> Self {
         self.reactive.alignment <~ value.producer
         return self
     }

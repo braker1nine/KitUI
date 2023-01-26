@@ -59,7 +59,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func tint(_ color: any SignalProducerConvertible<UIColor, Never>) -> Self {
+    public func tint(_ color: some SignalProducerConvertible<UIColor, Never>) -> Self {
         self.reactive.tintColor <~ color.producer
         return self
     }
@@ -69,7 +69,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func border(_ border: any SignalProducerConvertible<BorderStyle, Never>) -> Self {
+    public func border(_ border: some SignalProducerConvertible<BorderStyle, Never>) -> Self {
         self.layer.reactive.border <~ border.producer
         return self
     }
@@ -81,7 +81,7 @@ extension UIView {
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func cornerRadius(
-        _ value: any SignalProducerConvertible<Double, Never>,
+        _ value: some SignalProducerConvertible<Double, Never>,
         corners: CACornerMask = .all
     ) -> Self{
         self.clipsToBounds = true
@@ -95,7 +95,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func backgroundColor(_ value: any SignalProducerConvertible<UIColor, Never>) -> Self {
+    public func backgroundColor(_ value: some SignalProducerConvertible<UIColor, Never>) -> Self {
         self.reactive.backgroundColor <~ value.producer
         return self
     }
@@ -118,7 +118,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func transform(_ value: any SignalProducerConvertible<CGAffineTransform, Never>) -> Self {
+    public func transform(_ value: some SignalProducerConvertible<CGAffineTransform, Never>) -> Self {
         value.producer
             .take(duringLifetimeOf: self)
             .observe(on: QueueScheduler.main)
@@ -132,7 +132,7 @@ extension UIView {
     /// - parameter hidden: A reactive value with a boolean to set as the hidden state
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
-    public func hidden(_ value: any SignalProducerConvertible<Bool, Never>) -> Self {
+    public func hidden(_ value: some SignalProducerConvertible<Bool, Never>) -> Self {
         self.reactive.isHidden <~ value.producer
         return self
     }
@@ -141,7 +141,7 @@ extension UIView {
     /// - parameter alpha: A reactive value with a float to set as the alpha
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
-    public func alpha(_ value: any SignalProducerConvertible<Double, Never>) -> Self {
+    public func alpha(_ value: some SignalProducerConvertible<Double, Never>) -> Self {
         self.reactive.alpha <~ value.producer.map(\.cgFloat)
         return self
     }
@@ -150,7 +150,7 @@ extension UIView {
     /// - parameter value: A reactive value with a boolean to set as the isUserInteractionEnabled
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
-    public func userInteractionEnabled(_ value: any SignalProducerConvertible<Bool, Never>) -> Self {
+    public func userInteractionEnabled(_ value: some SignalProducerConvertible<Bool, Never>) -> Self {
         self.reactive.isUserInteractionEnabled <~ value.producer
         return self
     }
@@ -184,7 +184,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func height(_ value: any SignalProducerConvertible<Double, Never>) -> Self {
+    public func height(_ value: some SignalProducerConvertible<Double, Never>) -> Self {
         let constraint: Constraint = self.height(0)
         constraint.reactive.constant <~ value.producer.map(\.cgFloat)
         return self
@@ -195,7 +195,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func width(_ value: any SignalProducerConvertible<Double, Never>) -> Self {
+    public func width(_ value: some SignalProducerConvertible<Double, Never>) -> Self {
         let constraint: Constraint = self.width(0)
         constraint.reactive.constant <~ value.producer.map(\.cgFloat)
         return self
@@ -206,7 +206,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func size(_ size: any SignalProducerConvertible<Double, Never>) -> Self {
+    public func size(_ size: some SignalProducerConvertible<Double, Never>) -> Self {
         self
             .width(size)
             .height(size)
@@ -217,7 +217,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies the state of the current view
     @discardableResult
-    public func aspectRatio(_ ratio: any SignalProducerConvertible<Double, Never>) -> Self {
+    public func aspectRatio(_ ratio: some SignalProducerConvertible<Double, Never>) -> Self {
         var constraint: Constraint?
         ratio.producer.take(duringLifetimeOf: self).startWithValues { [weak self] multiplier in
             constraint?.isActive = false
@@ -231,7 +231,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func size(_ size: any SignalProducerConvertible<CGSize, Never>) -> Self {
+    public func size(_ size: some SignalProducerConvertible<CGSize, Never>) -> Self {
         
         self.height(size.producer.map(\.height).map(Double.init))
             .width(size.producer.map(\.width).map(Double.init))
@@ -244,7 +244,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func accessibilityLabel(_ value: any SignalProducerConvertible<String, Never>) -> Self {
+    public func accessibilityLabel(_ value: some SignalProducerConvertible<String, Never>) -> Self {
         self.reactive.accessibilityLabel <~ value.producer
         return self
     }
@@ -254,7 +254,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func accessibilityHint(_ value: any SignalProducerConvertible<String, Never>) -> Self  {
+    public func accessibilityHint(_ value: some SignalProducerConvertible<String, Never>) -> Self  {
         self.reactive.accessibilityHint <~ value.producer
         return self
     }
@@ -264,7 +264,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func accessibilityValue(_ value: any SignalProducerConvertible<String, Never>) -> Self {
+    public func accessibilityValue(_ value: some SignalProducerConvertible<String, Never>) -> Self {
         value.producer.take(duringLifetimeOf: self).startWithValues { [weak self] text in
             self?.accessibilityValue = text
         }
@@ -276,7 +276,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func accessibilityTraits(_ traits: any SignalProducerConvertible<UIAccessibilityTraits, Never>) -> Self {
+    public func accessibilityTraits(_ traits: some SignalProducerConvertible<UIAccessibilityTraits, Never>) -> Self {
         traits.producer.take(duringLifetimeOf: self).startWithValues { [weak self] traits in
             self?.accessibilityTraits = traits
         }
@@ -288,7 +288,7 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func isAccessibilityElement(_ value: any SignalProducerConvertible<Bool, Never>) -> Self {
+    public func isAccessibilityElement(_ value: some SignalProducerConvertible<Bool, Never>) -> Self {
         value.producer.take(duringLifetimeOf: self).startWithValues { [weak self] value in
             self?.isAccessibilityElement = value
         }
@@ -331,7 +331,7 @@ extension UIView {
     /// - parameter insets: A `Double` value to set as the padding
     /// - returns: A new view containing the current view with padding
     /// - note: **Wrapping Modifier** this returns a new view
-    public func padding(_ insets: any SignalProducerConvertible<Double, Never>) -> UIView {
+    public func padding(_ insets: some SignalProducerConvertible<Double, Never>) -> UIView {
         self.padding(insets.producer.map(\.cgFloat).map { UIEdgeInsets.uniform($0) })
     }
     
@@ -339,7 +339,7 @@ extension UIView {
     /// - parameter insets: A reactive `UIEdgeInsets` value to set as the padding
     /// - returns: A new view containing the current view with padding
     /// - note: **Wrapping Modifier** this returns a new view
-    public func padding(_ insets: any SignalProducerConvertible<UIEdgeInsets, Never>) -> UIView {
+    public func padding(_ insets: some SignalProducerConvertible<UIEdgeInsets, Never>) -> UIView {
         UIView.wrap(configuration: insets.producer.map { WrapConfiguration(insets: $0) }) {
             self
         }
@@ -437,7 +437,7 @@ public func ZStack(
 ///
 public func Line(
     thickness: CGFloat = 1.0,
-    color: any SignalProducerConvertible<UIColor, Never>,
+    color: some SignalProducerConvertible<UIColor, Never>,
     axis: NSLayoutConstraint.Axis = .horizontal
 ) -> UIView {
     UIView.line(thickness: thickness, color: color, axis: axis)
@@ -500,7 +500,7 @@ extension UIView {
     ///
     static func line(
         thickness: CGFloat = 1.0,
-        color: any SignalProducerConvertible<UIColor, Never>,
+        color: some SignalProducerConvertible<UIColor, Never>,
         axis: NSLayoutConstraint.Axis = .horizontal
     ) -> UIView {
         let view = UIView()
@@ -564,18 +564,18 @@ extension Kit where Base: UIView {
     /// Sets the height of the base view to any values sent through the signal
     /// - parameter value: A signal of height values
     /// - returns the `base` view
-    public func height(_ value: any SignalProducerConvertible<Double, Never>) -> Base {
+    public func height(_ value: some SignalProducerConvertible<Double, Never>) -> Base {
         self.base.height(value)
     }
     
     /// Sets the width of the base view to any values sent through the signal
     /// - parameter value: A signal of width values
     /// - returns the `base` view
-    public func width(_ value: any SignalProducerConvertible<Double, Never>) -> Base {
+    public func width(_ value: some SignalProducerConvertible<Double, Never>) -> Base {
         self.base.width(value)
     }
     
-    public func aspectRatio(_ value: any SignalProducerConvertible<Double, Never>) -> Base {
+    public func aspectRatio(_ value: some SignalProducerConvertible<Double, Never>) -> Base {
         self.base.aspectRatio(value)
     }
 }

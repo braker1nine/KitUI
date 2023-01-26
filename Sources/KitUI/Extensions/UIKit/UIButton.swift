@@ -43,7 +43,7 @@ extension UIButton {
     /// - note: **Mutating modifier** modifies a property of the button
     @discardableResult
     public func title(
-        color: any SignalProducerConvertible<UIColor?, Never>,
+        color: some SignalProducerConvertible<UIColor?, Never>,
         state: UIControl.State = .normal
     ) -> Self {
         self.reactive.titleColor(for: state) <~ color.producer
@@ -57,7 +57,7 @@ extension UIButton {
     /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
     public func title(
-        color: any SignalProducerConvertible<UIColor, Never>,
+        color: some SignalProducerConvertible<UIColor, Never>,
         state: UIControl.State = .normal
     ) -> Self {
         self.reactive.titleColor(for: state) <~ color.producer
@@ -91,7 +91,7 @@ extension UIButton {
     /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
     public func title(
-        _ title: any SignalProducerConvertible<String, Never>,
+        _ title: some SignalProducerConvertible<String, Never>,
         for state: UIControl.State = .normal
     ) -> Self {
         self.reactive.title(for: state) <~ title.producer
@@ -105,7 +105,7 @@ extension UIButton {
     /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
     public func image(
-        _ image: any SignalProducerConvertible<UIImage, Never>,
+        _ image: some SignalProducerConvertible<UIImage, Never>,
         for state: UIControl.State = .normal
     ) -> Self {
         self.reactive.image(for: state) <~ image.producer
@@ -117,7 +117,7 @@ extension UIButton {
     /// - returns: The button
     /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
-    public func font(_ font: any SignalProducerConvertible<UIFont, Never>) -> Self {
+    public func font(_ font: some SignalProducerConvertible<UIFont, Never>) -> Self {
         _ = self.titleLabel?.font(font)
         return self
     }

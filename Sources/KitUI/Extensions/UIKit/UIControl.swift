@@ -33,7 +33,7 @@ extension UIControl {
     /// - parameter isSelected: Property<Bool> with the state to set for the button
     /// - returns: The `UIControl` object
     /// - note: **Mutating modifier** modifies a property of the `UIControl`
-    public func isSelected(_ isSelected: any SignalProducerConvertible<Bool, Never>) -> Self {
+    public func isSelected(_ isSelected: some SignalProducerConvertible<Bool, Never>) -> Self {
         self.reactive.isSelected <~ isSelected.producer
         return self
     }

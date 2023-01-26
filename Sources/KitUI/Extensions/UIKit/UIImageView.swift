@@ -27,7 +27,7 @@ extension UIImageView {
     /// - parameter contentMode: The content mode to use
     /// - returns: An `UIImageView` with the specified image and content mode
     public convenience init(
-        image: any SignalProducerConvertible<UIImage?, Never>,
+        image: some SignalProducerConvertible<UIImage?, Never>,
         contentMode: UIImageView.ContentMode = .scaleAspectFit
     ) {
         self.init(image: nil, contentMode: contentMode)
@@ -72,7 +72,7 @@ extension UIImageView {
     /// - parameter contentMode: Stream of `UIImageView.ContentMode` The content mode to use for the image view
     /// - returns: The `UIImageView`
     /// - note: **Mutating modifier** modifies a property of the `UIImageView`
-    public func contentMode(_ mode: any SignalProducerConvertible<UIView.ContentMode, Never>) -> Self {
+    public func contentMode(_ mode: some SignalProducerConvertible<UIView.ContentMode, Never>) -> Self {
         self.reactive.contentMode <~ mode.producer
         return self
     }

@@ -15,7 +15,7 @@ extension UILabel {
     /// - returns: A `UILabel` bound to the specified stream
     /// - note: Sets the `numberOfLines` to `0` to allow for multiline text
     public convenience init(
-        _ text: any SignalProducerConvertible<String?, Never>
+        _ text: some SignalProducerConvertible<String?, Never>
     ) {
         self.init()
         self.numberOfLines = 0
@@ -28,7 +28,7 @@ extension UILabel {
     /// - returns: A `UILabel` bound to the specified stream
     /// - note: Sets the `numberOfLines` to `0` to allow for multiline text
     public convenience init(
-        _ text: any SignalProducerConvertible<String, Never>
+        _ text: some SignalProducerConvertible<String, Never>
     ) {
         self.init(text.producer.map { $0 as String? })
     }
@@ -37,7 +37,7 @@ extension UILabel {
     /// - parameter text: The attributed text producer to use for the label
     /// - returns: A `UILabel` with the specified attributed text
     public convenience init(
-        _ text: any SignalProducerConvertible<NSAttributedString, Never>
+        _ text: some SignalProducerConvertible<NSAttributedString, Never>
     ) {
         self.init()
         self.numberOfLines = 0
@@ -52,7 +52,7 @@ extension UILabel {
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
     public func font(
-        _ font: any SignalProducerConvertible<UIFont?, Never>,
+        _ font: some SignalProducerConvertible<UIFont?, Never>,
         scale: Bool = true,
         relativeTo style: UIFont.TextStyle? = nil
     ) -> Self {
@@ -68,7 +68,7 @@ extension UILabel {
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
     public func font(
-        _ font: any SignalProducerConvertible<UIFont, Never>,
+        _ font: some SignalProducerConvertible<UIFont, Never>,
         scale: Bool = true,
         relativeTo style: UIFont.TextStyle? = nil
     ) -> Self {
@@ -80,7 +80,7 @@ extension UILabel {
     /// - parameter text: `String?` The text to use for the label
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func text(_ text: any SignalProducerConvertible<String?, Never>) -> Self {
+    public func text(_ text: some SignalProducerConvertible<String?, Never>) -> Self {
         self.reactive.text <~ text.producer.map(\.stringValue)
         return self
     }
@@ -89,7 +89,7 @@ extension UILabel {
     /// - parameter color: `UIColor` The color to use for the label
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func color(_ color: any SignalProducerConvertible<UIColor, Never>) -> Self {
+    public func color(_ color: some SignalProducerConvertible<UIColor, Never>) -> Self {
         self.reactive.textColor <~ color.producer
         return self
     }
@@ -98,7 +98,7 @@ extension UILabel {
     /// - parameter alignment: `NSTextAlignment` The alignment to use for the label
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func alignment(_ alignment: any SignalProducerConvertible<NSTextAlignment, Never>) -> Self {
+    public func alignment(_ alignment: some SignalProducerConvertible<NSTextAlignment, Never>) -> Self {
         self.reactive.textAlignment <~ alignment.producer
         return self
     }
@@ -107,7 +107,7 @@ extension UILabel {
     /// - parameter lines: `Int` The number of lines to use for the label
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func numberOfLines(_ number: any SignalProducerConvertible<Int, Never>) -> Self {
+    public func numberOfLines(_ number: some SignalProducerConvertible<Int, Never>) -> Self {
         self.reactive.numberOfLines <~ number.producer
         return self
     }
@@ -120,7 +120,7 @@ extension UILabel {
     /// allows consumers to run a complicated string generation inline? Might toss
     /// this eventually?
     public func attributedText(
-        _ block: () -> any SignalProducerConvertible<NSAttributedString, Never>
+        _ block: () -> some SignalProducerConvertible<NSAttributedString, Never>
     ) -> Self {
         let text = block()
         self.reactive.attributedText <~ text.producer
@@ -131,7 +131,7 @@ extension UILabel {
     /// - parameter text: `SignalProducerConvertiable<NSAttributedString>` The attributed text to use for the label
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func attributedText(_ value: any SignalProducerConvertible<NSAttributedString, Never>) -> Self {
+    public func attributedText(_ value: some SignalProducerConvertible<NSAttributedString, Never>) -> Self {
         self.reactive.attributedText <~ value.producer
         return self
     }

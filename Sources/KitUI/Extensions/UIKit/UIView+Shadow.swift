@@ -16,7 +16,7 @@ extension UIView {
     /// - note: This currently supplies a default shadow color, opacity, offset, and radius
     public func shadow(
         cornerRadius: Int = 0,
-        hideShadow: any SignalProducerConvertible<Bool, Never> = false
+        hideShadow: some SignalProducerConvertible<Bool, Never> = false
     ) -> UIView {
         let shadow = UIView()
         shadow.layer.shadowColor = UIColor.black.cgColor
