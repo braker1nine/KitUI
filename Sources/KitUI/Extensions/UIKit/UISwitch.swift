@@ -27,8 +27,8 @@ extension UISwitch {
     /// - parameter color: reactive `UIColor` stream of colors to use for the `onTintColor` of the switch
     /// - returns: The `UISwitch`
     /// - note: **Mutating modifier** modifies a property of the `UISwitch` 
-    public func onTint<T: SignalProducerConvertible>(color: T) -> Self where T.Value == UIColor {
-        self.reactive.onTintColor <~ color.producer.eraseError()
+    public func onTint(color: some SignalProducerConvertible<UIColor, Never>) -> Self {
+        self.reactive.onTintColor <~ color.producer
         return self
     }
 }

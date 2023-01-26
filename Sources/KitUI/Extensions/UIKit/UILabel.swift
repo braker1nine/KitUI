@@ -14,30 +14,31 @@ extension UILabel {
     /// - parameter text: The `String` stream of values to bind to the `UILabel`
     /// - returns: A `UILabel` bound to the specified stream
     /// - note: Sets the `numberOfLines` to `0` to allow for multiline text
-    public convenience init<T: SignalProducerConvertible>(
-        _ text: T
-    ) where T.Value == String {
+    public convenience init(
+        _ text: some SignalProducerConvertible<String?, Never>
+    ) {
         self.init()
         self.numberOfLines = 0
         self.adjustsFontForContentSizeCategory = true
         _ = self.text(text)
     }
     
-    /// Initialize a label with a `String?` producer
-    /// - parameter text: The `String?` producer to use for the label
-    /// - returns: A `UILabel` with the specified text
-    public convenience init<T: SignalProducerConvertible>(
-        _ text: T
-    ) where T.Value == String? {
-        self.init(text.producer.map { $0 ?? ""})
+    /// Initialize a `UILabel` with a reactive `String` value
+    /// - parameter text: The `String` stream of values to bind to the `UILabel`
+    /// - returns: A `UILabel` bound to the specified stream
+    /// - note: Sets the `numberOfLines` to `0` to allow for multiline text
+    public convenience init(
+        _ text: some SignalProducerConvertible<String, Never>
+    ) {
+        self.init(text.producer.map { $0 as String? })
     }
     
     /// Intialize a label with an attributed text producer
     /// - parameter text: The attributed text producer to use for the label
     /// - returns: A `UILabel` with the specified attributed text
-    public convenience init<T: SignalProducerConvertible>(
-        _ text: T
-    ) where T.Value == NSAttributedString {
+    public convenience init(
+        _ text: some SignalProducerConvertible<NSAttributedString, Never>
+    ) {
         self.init()
         self.numberOfLines = 0
         _ = self.attributedText(text)
@@ -50,8 +51,12 @@ extension UILabel {
     ///   the `UIFontMetrics.default`
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func font<T: SignalProducerConvertible>(_ font: T, scale: Bool = true, relativeTo style: UIFont.TextStyle? = nil) -> Self where T.Value == UIFont? {
-        self.reactive.font <~ font.producer.eraseError().map { scale ? $0?.scaled(withStyle: style) : $0 }
+    public func font(
+        _ font: some SignalProducerConvertible<UIFont?, Never>,
+        scale: Bool = true,
+        relativeTo style: UIFont.TextStyle? = nil
+    ) -> Self {
+        self.reactive.font <~ font.producer.map { scale ? $0?.scaled(withStyle: style) : $0 }
         return self
     }
     
@@ -62,8 +67,12 @@ extension UILabel {
     ///   the `UIFontMetrics.default`
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func font<T: SignalProducerConvertible>(_ font: T, scale: Bool = true, relativeTo style: UIFont.TextStyle? = nil) -> Self where T.Value == UIFont {
-        self.reactive.font <~ font.producer.eraseError().map { scale ? $0.scaled(withStyle: style) : $0 }
+    public func font(
+        _ font: some SignalProducerConvertible<UIFont, Never>,
+        scale: Bool = true,
+        relativeTo style: UIFont.TextStyle? = nil
+    ) -> Self {
+        self.reactive.font <~ font.producer.map { scale ? $0.scaled(withStyle: style) : $0 }
         return self
     }
     
@@ -71,17 +80,8 @@ extension UILabel {
     /// - parameter text: `String?` The text to use for the label
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func text<T: SignalProducerConvertible>(_ text: T) -> Self where T.Value == String? {
-        self.reactive.text <~ text.producer.eraseError()
-        return self
-    }
-    
-    /// Chainable Method for setting the text of the label
-    /// - parameter text: `String` The text to use for the label
-    /// - returns: The `UILabel`
-    /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func text<T: SignalProducerConvertible>(_ text: T) -> Self where T.Value == String {
-        self.reactive.text <~ text.producer.eraseError()
+    public func text(_ text: some SignalProducerConvertible<String?, Never>) -> Self {
+        self.reactive.text <~ text.producer.map(\.stringValue)
         return self
     }
     
@@ -89,8 +89,8 @@ extension UILabel {
     /// - parameter color: `UIColor` The color to use for the label
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func color<T: SignalProducerConvertible>(_ color: T) -> Self where T.Value == UIColor {
-        self.reactive.textColor <~ color.producer.eraseError()
+    public func color(_ color: some SignalProducerConvertible<UIColor, Never>) -> Self {
+        self.reactive.textColor <~ color.producer
         return self
     }
     
@@ -98,8 +98,8 @@ extension UILabel {
     /// - parameter alignment: `NSTextAlignment` The alignment to use for the label
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func alignment<T: SignalProducerConvertible>(_ alignment: T) -> Self where T.Value == NSTextAlignment {
-        self.reactive.textAlignment <~ alignment.producer.eraseError()
+    public func alignment(_ alignment: some SignalProducerConvertible<NSTextAlignment, Never>) -> Self {
+        self.reactive.textAlignment <~ alignment.producer
         return self
     }
     
@@ -107,8 +107,8 @@ extension UILabel {
     /// - parameter lines: `Int` The number of lines to use for the label
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func numberOfLines<T: SignalProducerConvertible>(_ number: T) -> Self where T.Value == Int {
-        self.reactive.numberOfLines <~ number.producer.eraseError()
+    public func numberOfLines(_ number: some SignalProducerConvertible<Int, Never>) -> Self {
+        self.reactive.numberOfLines <~ number.producer
         return self
     }
     
@@ -119,9 +119,11 @@ extension UILabel {
     /// - note: A bit of an experiment, but allowing this closure based version of the method
     /// allows consumers to run a complicated string generation inline? Might toss
     /// this eventually?
-    public func attributedText<T: SignalProducerConvertible>(_ block: () -> T) -> Self where T.Value == NSAttributedString {
+    public func attributedText(
+        _ block: () -> some SignalProducerConvertible<NSAttributedString, Never>
+    ) -> Self {
         let text = block()
-        self.reactive.attributedText <~ text.producer.eraseError()
+        self.reactive.attributedText <~ text.producer
         return self
     }
     
@@ -129,8 +131,8 @@ extension UILabel {
     /// - parameter text: `SignalProducerConvertiable<NSAttributedString>` The attributed text to use for the label
     /// - returns: The `UILabel`
     /// - note: **Mutating modifier** modifies a property of the `UILabel`
-    public func attributedText<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == NSAttributedString {
-        self.reactive.attributedText <~ value.producer.eraseError()
+    public func attributedText(_ value: some SignalProducerConvertible<NSAttributedString, Never>) -> Self {
+        self.reactive.attributedText <~ value.producer
         return self
     }
 }

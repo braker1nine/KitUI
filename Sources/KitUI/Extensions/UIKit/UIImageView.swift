@@ -26,9 +26,12 @@ extension UIImageView {
     /// - parameter image: The image producer to use
     /// - parameter contentMode: The content mode to use
     /// - returns: An `UIImageView` with the specified image and content mode
-    public convenience init<T: SignalProducerConvertible>(image: T, contentMode: UIImageView.ContentMode = .scaleAspectFit) where T.Value == UIImage? {
+    public convenience init(
+        image: some SignalProducerConvertible<UIImage?, Never>,
+        contentMode: UIImageView.ContentMode = .scaleAspectFit
+    ) {
         self.init(image: nil, contentMode: contentMode)
-        self.reactive.image <~ image.producer.eraseError()
+        self.reactive.image <~ image.producer
     }
     
     /// Forces the image view to maintain the same aspect ratio as the `UIImage` class it contains
@@ -69,8 +72,8 @@ extension UIImageView {
     /// - parameter contentMode: Stream of `UIImageView.ContentMode` The content mode to use for the image view
     /// - returns: The `UIImageView`
     /// - note: **Mutating modifier** modifies a property of the `UIImageView`
-    public func contentMode<T: SignalProducerConvertible>(_ mode: T) -> Self where T.Value == UIView.ContentMode {
-        self.reactive.contentMode <~ mode.producer.eraseError()
+    public func contentMode(_ mode: some SignalProducerConvertible<UIView.ContentMode, Never>) -> Self {
+        self.reactive.contentMode <~ mode.producer
         return self
     }
 }

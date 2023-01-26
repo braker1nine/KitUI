@@ -24,8 +24,8 @@ extension UIActivityIndicatorView {
     /// - parameter color: A `Property` which will set & update the color on the view
     /// - returns: The `UIActivityIndicatorView` it's called on
     /// - note: **Modifying modifier** modifies a property of the `UIActivityIndicatorView`
-    public func color<T: SignalProducerConvertible>(_ color: T) -> Self where T.Value == UIColor {
-        self.reactive.color <~ color.producer.eraseError()
+    public func color(_ color: some SignalProducerConvertible<UIColor, Never>) -> Self {
+        self.reactive.color <~ color.producer
         return self
     }
     
@@ -33,8 +33,8 @@ extension UIActivityIndicatorView {
     /// - parameter isAnimating: A `Property` which will set & update the animating state on the view
     /// - returns: The `UIActivityIndicatorView` it's called on
     /// - note: **Modifying modifier** modifies a property of the `UIActivityIndicatorView`
-    public func isAnimating<T: SignalProducerConvertible>(_ isAnimating: T) -> Self where T.Value == Bool {
-        self.reactive.isAnimating <~ isAnimating.producer.eraseError()
+    public func isAnimating(_ isAnimating: some SignalProducerConvertible<Bool, Never>) -> Self {
+        self.reactive.isAnimating <~ isAnimating.producer
         return self
     }
 }

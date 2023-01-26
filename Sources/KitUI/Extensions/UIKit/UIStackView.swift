@@ -35,27 +35,18 @@ extension UIStackView {
     
     /// Initialize a stack view with the specified properties
     /// - note: Prefer using chainable methods rather than this initializer
-    public convenience init<
-        T: SignalProducerConvertible,
-        U: SignalProducerConvertible,
-        V: SignalProducerConvertible,
-        X: SignalProducerConvertible
-    >(
-        axis: T = NSLayoutConstraint.Axis.vertical as! T,
-        distribution: U = UIStackView.Distribution.fill as! U,
-        alignment: V = UIStackView.Alignment.fill as! V,
-        spacing: X = CGFloat(0.0) as! X,
+    public convenience init(
+        axis: some SignalProducerConvertible<NSLayoutConstraint.Axis, Never> = NSLayoutConstraint.Axis.vertical,
+        distribution: some SignalProducerConvertible<UIStackView.Distribution, Never> = UIStackView.Distribution.fill,
+        alignment: some SignalProducerConvertible<UIStackView.Alignment, Never> = UIStackView.Alignment.fill,
+        spacing: some SignalProducerConvertible<CGFloat, Never> = SignalProducer<CGFloat, Never>(value: 0),
         @UIViewBuilder builder: () -> [UIView]
-    ) where T.Value == NSLayoutConstraint.Axis,
-    U.Value == UIStackView.Distribution,
-    V.Value == UIStackView.Alignment,
-    X.Value == CGFloat
-    {
+    ) {
         self.init(frame: .zero)
-        self.reactive.axis <~ axis.producer.eraseError()
-        self.reactive.distribution <~ distribution.producer.eraseError()
-        self.reactive.alignment <~ alignment.producer.eraseError()
-        self.reactive.spacing <~ spacing.producer.eraseError()
+        self.reactive.axis <~ axis.producer
+        self.reactive.distribution <~ distribution.producer
+        self.reactive.alignment <~ alignment.producer
+        self.reactive.spacing <~ spacing.producer.map(\.cgFloat)
         self.isUserInteractionEnabled = true
         self.setHugging(.init(rawValue: 751), for: .vertical)
         self.setHugging(.init(rawValue: 751), for: .horizontal)
@@ -78,8 +69,8 @@ extension UIStackView {
     /// - returns self
     /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
-    public func axis<T: SignalProducerConvertible>(_ axis: T) -> Self where T.Value == NSLayoutConstraint.Axis {
-        self.reactive.axis <~ axis.producer.eraseError()
+    public func axis(_ axis: some SignalProducerConvertible<NSLayoutConstraint.Axis, Never>) -> Self {
+        self.reactive.axis <~ axis.producer
         return self
     }
     
@@ -88,8 +79,8 @@ extension UIStackView {
     /// - returns self
     /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
-    public func spacing<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == Double {
-        self.reactive.spacing <~ value.producer.map { CGFloat($0) }.eraseError()
+    public func spacing(_ value: some SignalProducerConvertible<Double, Never>) -> Self {
+        self.reactive.spacing <~ value.producer.map(\.cgFloat)
         return self
     }
     
@@ -98,8 +89,8 @@ extension UIStackView {
     /// - returns self
     /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
-    public func distribution<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == UIStackView.Distribution {
-        self.reactive.distribution <~ value.producer.eraseError()
+    public func distribution(_ value: some SignalProducerConvertible<UIStackView.Distribution, Never>) -> Self {
+        self.reactive.distribution <~ value.producer
         return self
     }
     
@@ -108,8 +99,8 @@ extension UIStackView {
     /// - returns self
     /// - note: **Mutating Modifier** modifies a property of the `UIStackView`
     @discardableResult
-    public func alignment<T: SignalProducerConvertible>(_ value: T) -> Self where T.Value == UIStackView.Alignment {
-        self.reactive.alignment <~ value.producer.eraseError()
+    public func alignment(_ value: some SignalProducerConvertible<UIStackView.Alignment, Never>) -> Self {
+        self.reactive.alignment <~ value.producer
         return self
     }
 }

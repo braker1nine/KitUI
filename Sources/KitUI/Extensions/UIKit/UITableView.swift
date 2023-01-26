@@ -16,8 +16,8 @@ extension UITableView {
     /// Reactively updates the dragInteractionEnabled state of the table view.
     /// - parameter dragInteractionEnabled: A `SignalProducerConvertible` which will update the dragInteractionEnabled state of the table view.
     /// - returns: The `UITableView` it's called on.
-    public func dragInteractionEnabled<T: SignalProducerConvertible>(_ enabled: T) -> Self where T.Value == Bool {
-        self.reactive.dragInteractionEnabled <~ enabled.producer.eraseError()
+    public func dragInteractionEnabled(_ enabled: some SignalProducerConvertible<Bool, Never>) -> Self {
+        self.reactive.dragInteractionEnabled <~ enabled.producer
         return self
     }
     

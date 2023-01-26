@@ -102,14 +102,17 @@ extension UIView {
     ///   the child view's wrap configuration reactively
     /// - parameter view: A closure which returns the view to add as a child
     /// - returns: A new `UIView` with the specified configuration
-    public static func wrap<T: SignalProducerConvertible>(configuration: T, _ view: () -> UIView) -> UIView where T.Value == WrapConfiguration {
+    public static func wrap(
+        configuration: some SignalProducerConvertible<WrapConfiguration, Never>,
+        _ view: () -> UIView
+    ) -> UIView {
         let child = view()
         let view = UIView()
         view.addSubview(child)
         
         var constraints: Constraints?
         
-        configuration.producer.eraseError().startWithValues { config in
+        configuration.producer.startWithValues { config in
             constraints?.deActivate()
             constraints = UIView.setupConstraints(
                 child: child,

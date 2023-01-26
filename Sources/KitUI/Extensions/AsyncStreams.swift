@@ -1,6 +1,8 @@
 //
 //  AsyncStreams.swift
-//  KitUI
+//
+//  These really belong somewhere else? Just a way to make signal producers
+//  conform to AsyncStreams?
 //
 //  Created by Chris Brakebill on 9/23/22.
 //
