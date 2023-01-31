@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ReactiveCocoa/ReactiveSwift/",
       "state" : {
-        "revision" : "509916c99f49a5e6c8196c968b8b7e3dbd48db04",
-        "version" : "7.1.0"
+        "revision" : "40c465af19b993344e84355c00669ba2022ca3cd",
+        "version" : "7.1.1"
       }
     },
     {
