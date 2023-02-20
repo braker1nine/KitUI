@@ -320,8 +320,9 @@ extension UIView {
     /// Chainable method for running imperative code on a view
     /// - parameter closure: A closure to run on the view
     /// - returns: The current view
-    @available(*, deprecated, message: "Covariant Self is only allowed in result position: https://github.com/apple/swift/issues/58638#issuecomment-1409503072")
-    public func declare(_ closure: (Self) -> Void) -> Self {
+    /// Cannot use `Self` in the closure as it's only allowed in a result position
+    /// https://github.com/apple/swift/issues/58638#issuecomment-1409503072
+    public func declare(_ closure: (UIView) -> Void) -> Self {
         closure(self)
         return self
     }
