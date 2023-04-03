@@ -70,7 +70,24 @@ extension UIView {
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func border(_ border: some SignalProducerConvertible<BorderStyle, Never>) -> Self {
-        self.layer.reactive.border <~ border.producer
+        
+        /// This producer is a stream of values containing this view's traitCollection.userInterfaceStyle
+        let styleProducer = SignalProducer<UIUserInterfaceStyle?, Never>.merge(
+            
+            /// Send the current initial value to the producer
+            SignalProducer<UIUserInterfaceStyle?, Never>(value: self.traitCollection.userInterfaceStyle),
+            
+            /// Each time `traitCollectionDidChange` is called, send the current `userInterfaceStyle`
+            /// Call `skipRepeats` so we only send values when the style changes
+            self.reactive.trigger(for: #selector(traitCollectionDidChange))
+                .map { [weak self] _ in
+                    self?.traitCollection.userInterfaceStyle
+                }.skipRepeats()
+        )
+        
+        /// Combine the border values with the interfaceStyle producer, and map it to the border style
+        /// value, then pipe those border styles into the layer
+        self.layer.reactive.border <~ border.producer.combineLatest(with: styleProducer).map(\.0)
         return self
     }
     
