@@ -24,6 +24,15 @@ extension Property {
     }
 }
 
+extension PropertyProtocol where Value == Bool {
+    public func mapIf<T>(on: T, off: T) -> Property<T> {
+        .init(
+            initial: self.value ? on : off,
+            then: self.producer.mapIf(on: on, off: off)
+        )
+    }
+}
+
 #if os(iOS)
 import UIKit
 extension Property {
