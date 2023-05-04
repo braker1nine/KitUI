@@ -138,9 +138,8 @@ extension UIView {
     public func transform(_ value: some SignalProducerConvertible<CGAffineTransform, Never>) -> Self {
         value.producer
             .take(duringLifetimeOf: self)
-            .observe(on: QueueScheduler.main)
-            .startWithValues { transform in
-                self.transform = transform
+            .startWithValues { [weak self] transform in
+                self?.transform = transform
             }
         return self
     }
