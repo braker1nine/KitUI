@@ -23,6 +23,14 @@ extension Signal {
     }
 }
 
+extension Signal where Value == Bool {
+    public func mapIf<T>(on: T, off: T) -> Signal<T, Error> {
+        self.map {
+            $0 ? on : off
+        }
+    }
+}
+
 extension SignalProducer {
 
     /// Map all values from a signal into an optional    
@@ -56,6 +64,12 @@ extension SignalProducer {
             
             return SignalProducer<ObjectType, Error>(value: value)
         }
+    }
+}
+
+extension SignalProducer where Value == Bool {
+    public func mapIf<T>(on: T, off: T) -> SignalProducer<T, Error> {
+        self.lift { $0.mapIf(on: on, off: off) }
     }
 }
 
