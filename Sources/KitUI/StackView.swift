@@ -19,4 +19,16 @@ public func Vertical(@UIViewBuilder builder: () -> [UIView]) -> UIStackView {
 public func Horizontal(@UIViewBuilder builder: () -> [UIView]) -> UIStackView {
     .init(axis: .horizontal, builder: builder)
 }
+
+/// This creates a `UIStackView` that prefers to be horizontal, but switches
+/// to being vertical at accessible font sizes
+public func AccessibleHorizontal(
+    @UIViewBuilder content: () -> [UIView]
+) -> UIStackView {
+    let axis = UIApplication.shared.reactive.preferredContentSizeCategory
+        .map { category -> NSLayoutConstraint.Axis in
+            category.isAccessibilityCategory ? .vertical : .horizontal
+        }
+    return UIStackView(axis: axis, builder: content)
+}
 #endif
