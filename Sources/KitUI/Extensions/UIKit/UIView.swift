@@ -148,6 +148,7 @@ extension UIView {
     /// - parameter hidden: A reactive value with a boolean to set as the hidden state
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
     public func hidden(_ value: some SignalProducerConvertible<Bool, Never>) -> Self {
         self.reactive.isHidden <~ value.producer
         return self
@@ -157,6 +158,7 @@ extension UIView {
     /// - parameter alpha: A reactive value with a float to set as the alpha
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
     public func alpha(_ value: some SignalProducerConvertible<Double, Never>) -> Self {
         self.reactive.alpha <~ value.producer.map(\.cgFloat)
         return self
@@ -166,6 +168,7 @@ extension UIView {
     /// - parameter value: A reactive value with a boolean to set as the isUserInteractionEnabled
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
     public func userInteractionEnabled(_ value: some SignalProducerConvertible<Bool, Never>) -> Self {
         self.reactive.isUserInteractionEnabled <~ value.producer
         return self
