@@ -105,7 +105,7 @@ extension UIButton {
     /// - note: **Mutating modifier** modifies a property of the `UIButton`
     @discardableResult
     public func image(
-        _ image: some SignalProducerConvertible<UIImage, Never>,
+        _ image: some SignalProducerConvertible<UIImage?, Never>,
         for state: UIControl.State = .normal
     ) -> Self {
         self.reactive.image(for: state) <~ image.producer
