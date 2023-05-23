@@ -15,18 +15,31 @@ extension UIView {
     /// - returns A `UIView` with the specified shadow
     /// - note: This currently supplies a default shadow color, opacity, offset, and radius
     public func shadow(
-        cornerRadius: Int = 0,
+        color: some SignalProducerConvertible<UIColor, Never> = UIColor.black,
+        offset: some SignalProducerConvertible<CGSize, Never> = CGSize(width: 0, height: 1),
+        shadowRadius: some SignalProducerConvertible<Double, Never> = 5.0,
+        shadowOpacity: some SignalProducerConvertible<Double, Never> = 0.3,
+        cornerRadius: some SignalProducerConvertible<Double, Never> = 0.0,
         hideShadow: some SignalProducerConvertible<Bool, Never> = false
     ) -> UIView {
         let shadow = UIView()
-        shadow.layer.shadowColor = UIColor.black.cgColor
-        shadow.layer.shadowOffset = .init(width: 0, height: 1)
-        shadow.layer.shadowRadius = 5
-        shadow.layer.shadowOpacity = 0.3
-        shadow.layer.cornerRadius = .init(cornerRadius)
+        SignalProducer.combineLatest(
+            color,
+            offset,
+            shadowRadius,
+            shadowOpacity,
+            cornerRadius,
+            hideShadow
+        ).startWithValues { color, offset, shadowRadius, shadowOpacity, cornerRadius, hideShadow in
+            shadow.layer.shadowColor = color.cgColor
+            shadow.layer.shadowOffset = offset
+            shadow.layer.shadowRadius = shadowRadius
+            shadow.layer.shadowOpacity = Float(hideShadow ? 0 : shadowOpacity)
+            shadow.layer.cornerRadius = cornerRadius
+        }
         
         shadow.addSubview(self)
-        self.cornerRadius(Double(cornerRadius))
+        self.cornerRadius(cornerRadius)
         self.edgesToSuperview()
         return shadow
     }
