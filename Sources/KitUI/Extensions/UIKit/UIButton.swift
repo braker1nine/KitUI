@@ -142,8 +142,28 @@ extension UIButton {
         content.edgesToSuperview()
         return button
     }
+    
+    // MARK: - Configuration
+    @available(iOS 15.0, *)
+    public func configuration(_ value: UIButton.Configuration) -> Self {
+        self.configuration = value
+        return self
+    }
+    
+    @available(iOS 15.0, *)
+    public func configuration(_ block: () -> UIButton.Configuration) -> Self {
+        self.configuration = block()
+        return self
+    }
+    
+    @available(iOS 15.0, *)
+    public func configuration(_ value: some SignalProducerConvertible<UIButton.Configuration, Never>) -> Self {
+        self.reactive.configuration <~ value.producer
+        return self
+    }
 }
 
+// MARK: -
 extension Reactive where Base: UIButton {
     
     /// Allows you to pass an arbitrary closure to run when a button is pressed
@@ -181,6 +201,13 @@ extension Reactive where Base: UIButton {
     public func attributedTitle(for state: UIControl.State = .normal) -> BindingTarget<NSAttributedString> {
         makeBindingTarget { (button, text) in
             button.setAttributedTitle(text, for: state)
+        }
+    }
+    
+    @available(iOS 15.0, *)
+    public var configuration: BindingTarget<UIButton.Configuration> {
+        makeBindingTarget { button, configuration in
+            button.configuration = configuration
         }
     }
 }
