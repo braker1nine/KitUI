@@ -6,11 +6,14 @@ import Foundation
 import ReactiveSwift
 import CoreGraphics
 
-#if os(iOS)
+#if canImport(UIKit)
 import UIKit
 #endif
 
-#if os(iOS)
+#if canImport(AppKit)
+import AppKit
+#endif
+
 /// `SignalProducerConvertible` for `CGFloat`
 /// - note: Sends the value once
 extension CGFloat: SignalProducerConvertible {
@@ -18,41 +21,6 @@ extension CGFloat: SignalProducerConvertible {
     public typealias Error = Never
     
     public var producer: SignalProducer<CGFloat, Never> { .init(value: self) }
-}
-
-/// `SignalProducerConvertible` conformance for `BorderStyle`
-/// - note: Sends the value once
-extension BorderStyle: SignalProducerConvertible {
-    public var producer: SignalProducer<BorderStyle, Never> { .init(value: self) }
-}
-
-/// `SignalProducerConvertible` conformance for `UIColor`
-/// - note: Sends the value once
-extension UIColor: SignalProducerConvertible {
-    public var producer: SignalProducer<UIColor, Never> { .init(value: self) }
-}
-
-/// `SignalProducerConvertible` conformance for `UIAccessibilityTraits`
-/// - note: Sends the value once
-extension UIAccessibilityTraits: SignalProducerConvertible {
-    public var producer: SignalProducer<UIAccessibilityTraits, Never> { .init(value: self) }
-}
-
-
-extension UIFont: SignalProducerConvertible {
-    public var producer: SignalProducer<UIFont, Never> { .init(value: self) }
-}
-
-extension NSLayoutConstraint.Axis: SignalProducerConvertible {
-    public var producer: SignalProducer<NSLayoutConstraint.Axis, Never> { .init(value: self) }
-}
-
-extension UIStackView.Distribution: SignalProducerConvertible {
-    public var producer: SignalProducer<UIStackView.Distribution, Never> { .init(value: self) }
-}
-
-extension UIStackView.Alignment: SignalProducerConvertible {
-    public var producer: SignalProducer<UIStackView.Alignment, Never> { .init(value: self) }
 }
 
 extension CGAffineTransform: SignalProducerConvertible {
@@ -67,14 +35,9 @@ extension CGSize: SignalProducerConvertible {
     public var producer: SignalProducer<CGSize, Never> { .init(value: self) }
 }
 
-extension UIImage: SignalProducerConvertible {
-    public var producer: SignalProducer<UIImage, Never> { .init(value: self) }
-}
-
 extension NSTextAlignment: SignalProducerConvertible {
     public var producer: SignalProducer<NSTextAlignment, Never> { .init(value: self) }
 }
-#endif
 
 extension Bool: SignalProducerConvertible {
     public var producer: SignalProducer<Bool, Never> { .init(value: self) }
@@ -108,14 +71,55 @@ extension NSAttributedString: SignalProducerConvertible {
     public var producer: SignalProducer<NSAttributedString, Never> { .init(value: self) }
 }
 
-extension UIEdgeInsets: SignalProducerConvertible {
-    public var producer: SignalProducer<UIEdgeInsets, Never> { .init(value: self) }
+#if canImport(UIKit)
+
+/// `SignalProducerConvertible` conformance for `BorderStyle`
+/// - note: Sends the value once
+extension BorderStyle: SignalProducerConvertible {
+    public var producer: SignalProducer<BorderStyle, Never> { .init(value: self) }
+}
+
+extension NSLayoutConstraint.Axis: SignalProducerConvertible {
+    public var producer: SignalProducer<NSLayoutConstraint.Axis, Never> { .init(value: self) }
+}
+
+/// `SignalProducerConvertible` conformance for `UIColor`
+/// - note: Sends the value once
+extension UIColor: SignalProducerConvertible {
+    public var producer: SignalProducer<UIColor, Never> { .init(value: self) }
+}
+
+/// `SignalProducerConvertible` conformance for `UIAccessibilityTraits`
+/// - note: Sends the value once
+extension UIAccessibilityTraits: SignalProducerConvertible {
+    public var producer: SignalProducer<UIAccessibilityTraits, Never> { .init(value: self) }
+}
+
+extension UIStackView.Distribution: SignalProducerConvertible {
+    public var producer: SignalProducer<UIStackView.Distribution, Never> { .init(value: self) }
+}
+
+extension UIStackView.Alignment: SignalProducerConvertible {
+    public var producer: SignalProducer<UIStackView.Alignment, Never> { .init(value: self) }
+}
+
+extension UIImage: SignalProducerConvertible {
+    public var producer: SignalProducer<UIImage, Never> { .init(value: self) }
+}
+
+extension UIFont: SignalProducerConvertible {
+    public var producer: SignalProducer<UIFont, Never> { .init(value: self) }
 }
 
 extension WrapConfiguration: SignalProducerConvertible {
     public var producer: SignalProducer<WrapConfiguration, Never> { .init(value: self) }
 }
 
+extension UIEdgeInsets: SignalProducerConvertible {
+    public var producer: SignalProducer<UIEdgeInsets, Never> { .init(value: self) }
+}
+
 extension UIView.ContentMode: SignalProducerConvertible {
     public var producer: SignalProducer<UIView.ContentMode, Never> { .init(value: self) }
 }
+#endif

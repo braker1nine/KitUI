@@ -1,4 +1,4 @@
-
+#if canImport(UIKit)
 import Foundation
 import ReactiveCocoa
 import ReactiveSwift
@@ -17,3 +17,4 @@ extension Reactive where Base: UIApplication {
         )
     }
 }
+#endif

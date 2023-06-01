@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import Foundation
 import ReactiveSwift
 import UIKit
@@ -55,3 +56,5 @@ extension UIView {
         VisualEffect(effect: effect, disable: disable, content: { self })
     }
 }
+
+#endif

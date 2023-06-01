@@ -1,8 +1,4 @@
-//
-//  UIFont.swift
-//  
-//
-
+#if canImport(UIKit)
 import Foundation
 import UIKit
 
@@ -19,3 +15,4 @@ extension UIFont {
         }
     }
 }
+#endif
