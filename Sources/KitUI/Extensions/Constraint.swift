@@ -32,7 +32,7 @@ extension Reactive where Base: Constraint {
 
 extension Constraint {
     @discardableResult
-    func isActive(_ isActive: some SignalProducerConvertible<Bool, Never>) -> Constraint {
+    public func isActive(_ isActive: some SignalProducerConvertible<Bool, Never>) -> Constraint {
         self.reactive.isActive <~ isActive.producer
         return self
     }
@@ -40,7 +40,7 @@ extension Constraint {
 
 extension Constraints {
     @discardableResult
-    func isActive(_ isActive: some SignalProducerConvertible<Bool, Never>) -> Constraints {
+    public func isActive(_ isActive: some SignalProducerConvertible<Bool, Never>) -> Constraints {
         for constraint in self {
             constraint.reactive.isActive <~ isActive.producer
         }
