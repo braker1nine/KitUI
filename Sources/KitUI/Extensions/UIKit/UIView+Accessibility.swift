@@ -11,8 +11,8 @@ extension UIView {
     /// - returns: The view it was called on
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
-    public func accessibilityIdentifier(_ value: some SignalProducerConvertible<String, any Error>) -> Self {
-        self.reactive.accessibilityIdentifier <~ value.producer.eraseError()
+    public func accessibilityIdentifier(_ value: some SignalProducerConvertible<String, Never>) -> Self {
+        self.reactive.accessibilityIdentifier <~ value.producer
         return self
     }
     
