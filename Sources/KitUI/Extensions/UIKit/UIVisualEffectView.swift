@@ -8,7 +8,7 @@ public func VisualEffect(
     disable: some SignalProducerConvertible<Bool, Never> = false,
     content: () -> UIView
 ) -> UIView {
-    let wrap = UIVisualEffectView(effect: effect)
+    let wrap = UIVisualEffectView(effect: nil)
     disable.producer.take(duringLifetimeOf: wrap).startWithValues { [weak wrap] disabled in
         guard let wrap = wrap else { return }
         if disabled {
@@ -31,7 +31,7 @@ public func Vibrancy(
 ) -> UIView {
     
     let effect = UIVibrancyEffect(blurEffect: blurEffect, style: style)
-    let wrap = UIVisualEffectView(effect: effect)
+    let wrap = UIVisualEffectView(effect: nil)
     disable.producer.take(duringLifetimeOf: wrap).startWithValues { [weak wrap] disabled in
         wrap?.effect = disabled ? nil : effect
     }
@@ -47,7 +47,7 @@ extension UIView {
         style: UIVibrancyEffectStyle,
         disable: some SignalProducerConvertible<Bool, Never> = false
     ) -> UIView {
-        Vibrancy(blurEffect: .init(style: blurEffect), style: style) {
+        Vibrancy(blurEffect: .init(style: blurEffect), style: style, disable: disable) {
             self
         }
     }
