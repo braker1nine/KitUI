@@ -29,13 +29,15 @@ extension UIView {
             shadowRadius,
             shadowOpacity,
             cornerRadius,
-            hideShadow
-        ).startWithValues { color, offset, shadowRadius, shadowOpacity, cornerRadius, hideShadow in
+            hideShadow,
+            self.reactive.bounds.eraseError()
+        ).startWithValues { color, offset, shadowRadius, shadowOpacity, cornerRadius, hideShadow, bounds in
             shadow.layer.shadowColor = color.cgColor
             shadow.layer.shadowOffset = offset
             shadow.layer.shadowRadius = shadowRadius
             shadow.layer.shadowOpacity = Float(hideShadow ? 0 : shadowOpacity)
             shadow.layer.cornerRadius = cornerRadius
+            shadow.layer.shadowPath = .init(roundedRect: bounds, cornerWidth: cornerRadius, cornerHeight: cornerRadius, transform: nil)
         }
         
         shadow.addSubview(self)
