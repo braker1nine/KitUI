@@ -37,5 +37,14 @@ extension UIControl {
         self.reactive.isSelected <~ isSelected.producer
         return self
     }
+    
+    /// Chainable method for setting `isEnabled` state on the control
+    /// - parameter enabled: A `Bool` reactive value with the enabled state for the button
+    /// - returns: The `UIControl` object it's called on
+    /// - note: **Mutating modifier** modifies a property of the `UIControl`
+    public func isEnabled(_ enabled: some SignalProducerConvertible<Bool, Never>) -> Self {
+        self.reactive.isEnabled <~ enabled.producer
+        return self
+    }
 }
 #endif
