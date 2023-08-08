@@ -31,7 +31,9 @@ extension UIView {
             cornerRadius,
             hideShadow,
             self.reactive.bounds.eraseError()
-        ).startWithValues { color, offset, shadowRadius, shadowOpacity, cornerRadius, hideShadow, bounds in
+        )
+        .observe(on: UIScheduler())
+        .startWithValues { color, offset, shadowRadius, shadowOpacity, cornerRadius, hideShadow, bounds in
             shadow.layer.shadowColor = color.cgColor
             shadow.layer.shadowOffset = offset
             shadow.layer.shadowRadius = shadowRadius
