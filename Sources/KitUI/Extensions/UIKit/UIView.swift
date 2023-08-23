@@ -123,11 +123,7 @@ extension UIView {
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
     public func transform(_ value: some SignalProducerConvertible<CGAffineTransform, Never>) -> Self {
-        value.producer
-            .take(duringLifetimeOf: self)
-            .startWithValues { [weak self] transform in
-                self?.transform = transform
-            }
+        self.reactive.transform <~ value.producer
         return self
     }
     
