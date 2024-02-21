@@ -12,7 +12,7 @@ import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 
-enum CollectionViewError: Error {
+public enum CollectionViewError: Error {
     case failedToCastCell(UICollectionViewCell, ReuseableCollectionCell.Type)
 }
 
