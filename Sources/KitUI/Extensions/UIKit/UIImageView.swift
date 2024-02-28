@@ -44,7 +44,7 @@ extension UIImageView {
             }
             let aspectRatio = image.size.width / image.size.height
             currentConstraint = self.aspectRatio(aspectRatio)
-            self.layoutIfNeeded()
+            self.layoutIfInWindow()
         }
         
         if let image = self.image {

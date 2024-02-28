@@ -121,8 +121,7 @@ extension UIView {
                 horizontalAlignment: config.horizontalAlignment,
                 safeAreaEdges: config.safeAreaEdges
             )
-            
-            view.layoutIfNeeded()
+            view.layoutIfInWindow()
         }
         
         return view

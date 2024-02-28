@@ -525,4 +525,15 @@ extension Kit where Base: UIView {
         self.base.aspectRatio(value)
     }
 }
+
+// MARK - Private Functions
+extension UIView {
+    
+    /// This method triggers a layout IF the view has been added to a window's hierachy
+    func layoutIfInWindow() {
+        if self.window != nil {
+            self.layoutIfNeeded()
+        }
+    }
+}
 #endif
