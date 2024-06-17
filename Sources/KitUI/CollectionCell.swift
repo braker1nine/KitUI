@@ -1,5 +1,5 @@
 //
-//  TableCell.swift
+//  CollectionCell.swift
 //
 #if !os(macOS)
 
@@ -7,9 +7,9 @@ import Foundation
 import UIKit
 import TinyConstraints
 
-/// A wrapper for creating a `UITableViewCell` with any generic view as it's content view
+/// A wrapper for creating a `UICollectionViewCell` with any generic view as it's content view
 ///
-open class TableCell<Content: UIView>: UITableViewCell, Reuseable {
+open class CollectionCell<Content: UIView>: UICollectionViewCell, Reuseable {
     public static var reuseIdentifier: String { String(describing: Content.self) }
     
     /// Intializes the content view. Subclasses can override this to use a custom initializer
@@ -19,22 +19,16 @@ open class TableCell<Content: UIView>: UITableViewCell, Reuseable {
     
     public lazy var content: Content = self.viewInitializer()
     
-    public convenience init(style: UITableViewCell.CellStyle = .default) {
-        self.init(style: style, reuseIdentifier: Self.reuseIdentifier)
-    }
-    
-    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    public override init(frame: CGRect) {
+        super.init(frame: .zero)
         self.setup()
-    }
+    }    
     
     private func setup() {
-        self.selectionStyle = .none
         self.contentView.backgroundColor = .clear
         self.backgroundColor = .clear
         self.contentView.addSubview(self.content)
         self.content.edgesToSuperview()
-        
         self.accessibilityElements = [self.content]
     }
     
@@ -43,7 +37,7 @@ open class TableCell<Content: UIView>: UITableViewCell, Reuseable {
     }
 }
 
-extension TableCell where Content: Reuseable {
+extension CollectionCell where Content: Reuseable {
     public static var reuseIdentifier: String { Content.reuseIdentifier }
 }
 #endif
