@@ -9,14 +9,12 @@ public func VisualEffect(
     content: () -> UIView
 ) -> UIView {
     let wrap = UIVisualEffectView(effect: nil)
-    disable.producer.take(duringLifetimeOf: wrap).startWithValues { [weak wrap] disabled in
-        guard let wrap = wrap else { return }
-        if disabled {
-            wrap.effect = nil
-        } else {
-            wrap.effect = effect
+    disable.producer
+        .take(duringLifetimeOf: wrap)
+        .observe(on: UIScheduler())
+        .startWithValues { [weak wrap] disabled in
+            wrap?.effect = disabled ? nil : effect
         }
-    }
     let contentView = content()
     wrap.contentView.addSubview(contentView)
     contentView.edgesToSuperview()
@@ -32,9 +30,12 @@ public func Vibrancy(
     
     let effect = UIVibrancyEffect(blurEffect: blurEffect, style: style)
     let wrap = UIVisualEffectView(effect: nil)
-    disable.producer.take(duringLifetimeOf: wrap).startWithValues { [weak wrap] disabled in
-        wrap?.effect = disabled ? nil : effect
-    }
+    disable.producer
+        .take(duringLifetimeOf: wrap)
+        .observe(on: UIScheduler())
+        .startWithValues { [weak wrap] disabled in
+            wrap?.effect = disabled ? nil : effect
+        }
     let view = content()
     wrap.contentView.addSubview(view)
     view.edgesToSuperview()
