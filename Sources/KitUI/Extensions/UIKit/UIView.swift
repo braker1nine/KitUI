@@ -192,6 +192,30 @@ extension UIView {
         return self
     }
     
+    /// Chainable method for setting the minimum height  on a view
+    /// - parameter value: A reactive value with a float to set as the minimum height
+    /// - parameter priority: The priority to set on the constraint (defaults to `required`)
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
+    public func minHeight(_ min: some SignalProducerConvertible<Double, Never>, priority: UILayoutPriority = .required) -> Self {
+        let constraint: Constraint = self.height(0, relation: .equalOrGreater, priority: priority)
+        constraint.reactive.constant <~ min.producer.map(\.cgFloat)
+        return self
+    }
+    
+    /// Chainable method for setting the maximum height on a view
+    /// - parameter value: A reactive value with a float to set as the maximum height
+    /// - parameter priority: The priority to set on the constraint (defaults to `required`)
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
+    public func maxHeight(_ max: some SignalProducerConvertible<Double, Never>, priority: UILayoutPriority = .required) -> Self {
+        let constraint: Constraint = self.height(0, relation: .equalOrLess, priority: priority)
+        constraint.reactive.constant <~ max.producer.map(\.cgFloat)
+        return self
+    }
+    
     /// Chainable method for setting the width on a view
     /// - parameter value: A reactive value with a float to set as the width
     /// - returns: The current view
@@ -200,6 +224,30 @@ extension UIView {
     public func width(_ value: some SignalProducerConvertible<Double, Never>) -> Self {
         let constraint: Constraint = self.width(0)
         constraint.reactive.constant <~ value.producer.map(\.cgFloat)
+        return self
+    }
+    
+    /// Chainable method for setting the minimum width  on a view
+    /// - parameter value: A reactive value with a float to set as the minimum width
+    /// - parameter priority: The priority to set on the constraint (defaults to `required`)
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
+    public func minWidth(_ min: some SignalProducerConvertible<Double, Never>, priority: UILayoutPriority = .required) -> Self {
+        let constraint: Constraint = self.width(0, relation: .equalOrGreater, priority: priority)
+        constraint.reactive.constant <~ min.producer.map(\.cgFloat)
+        return self
+    }
+    
+    /// Chainable method for setting the maximum width on a view
+    /// - parameter value: A reactive value with a float to set as the maximum width
+    /// - parameter priority: The priority to set on the constraint (defaults to `required`)
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
+    public func maxWidth(_ max: some SignalProducerConvertible<Double, Never>, priority: UILayoutPriority = .required) -> Self {
+        let constraint: Constraint = self.width(0, relation: .equalOrLess, priority: priority)
+        constraint.reactive.constant <~ max.producer.map(\.cgFloat)
         return self
     }
     
