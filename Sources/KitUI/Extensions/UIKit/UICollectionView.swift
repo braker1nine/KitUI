@@ -17,6 +17,7 @@ public enum CollectionViewError: Error {
 }
 
 public typealias ReuseableCollectionCell = UICollectionViewCell & Reuseable
+public typealias ReuseableSupplementaryCell = UICollectionReusableView & Reuseable
 
 extension UICollectionView {
     
@@ -62,6 +63,40 @@ extension UICollectionView {
         } else {
             throw CollectionViewError.failedToCastCell(cell, T.self)
         }
+    }
+    
+    /// Register a `Reuseable` type as a header
+    /// - parameter header: The type to register with the collection view
+    /// - returns: The `UICollectionView` it was called on
+    @discardableResult
+    public func registerHeader(_ header: ReuseableSupplementaryCell.Type) -> Self {
+        self.register(header, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: header.reuseIdentifier)
+        return self
+    }
+    
+    /// Dequeue a header with a specific type
+    /// - parameter indexPath: The `IndexPath` to dequeue a header for
+    /// - returns: An optional view with the inferred type
+    public func dequeueHeader<T: ReuseableSupplementaryCell>(for indexPath: IndexPath) -> T? {
+        let cell = self.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: T.reuseIdentifier, for: indexPath)
+        return cell as? T
+    }
+    
+    /// Register a `Reuseable` type as a footer
+    /// - parameter header: The type to register with the collection view
+    /// - returns: The `UICollectionView` it was called on
+    @discardableResult
+    public func registerFooter(_ footer: ReuseableSupplementaryCell.Type) -> Self {
+        self.register(footer, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: footer.reuseIdentifier)
+        return self
+    }
+    
+    /// Dequeue a footer with a specific type
+    /// - parameter indexPath: The `IndexPath` to dequeue a footer for
+    /// - returns: An optional view with the inferred type
+    public func dequeueFooter<T: ReuseableSupplementaryCell>(for indexPath: IndexPath) -> T? {
+        let cell = self.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: T.reuseIdentifier, for: indexPath)
+        return cell as? T
     }
 }
 
