@@ -21,6 +21,16 @@ extension UIView {
     /// - returns: The current view
     /// - note: **Mutating Modifier** this modifies a property on the current view
     @discardableResult
+    public func accessibilityLabel(_ value: some SignalProducerConvertible<String?, Never>) -> Self {
+        self.reactive.accessibilityLabel <~ value.producer
+        return self
+    }
+    
+    /// Chainable method for setting the accessibility label on a view
+    /// - parameter value: A reactive value with a `String` to set as the accessibility label
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
     public func accessibilityLabel(_ value: some SignalProducerConvertible<String, Never>) -> Self {
         self.reactive.accessibilityLabel <~ value.producer
         return self
