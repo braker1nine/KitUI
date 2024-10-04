@@ -112,17 +112,22 @@ extension UIView {
         
         var constraints: Constraints?
         
-        configuration.producer.startWithValues { config in
-            constraints?.deActivate()
-            constraints = UIView.setupConstraints(
-                child: child,
-                insets: config.insets,
-                verticalAlignment: config.verticalAlignment,
-                horizontalAlignment: config.horizontalAlignment,
-                safeAreaEdges: config.safeAreaEdges
-            )
-            view.layoutIfInWindow()
-        }
+        configuration.producer
+            .take(duringLifetimeOf: view)
+            .take(duringLifetimeOf: child)
+            .startWithValues { [weak view, weak child] config in
+                guard let view, let child else { return }
+                    
+                constraints?.deActivate()
+                constraints = UIView.setupConstraints(
+                    child: child,
+                    insets: config.insets,
+                    verticalAlignment: config.verticalAlignment,
+                    horizontalAlignment: config.horizontalAlignment,
+                    safeAreaEdges: config.safeAreaEdges
+                )
+                view.layoutIfInWindow()
+            }
         
         return view
     }
