@@ -81,7 +81,7 @@ extension SignalProducer {
     /// TODO: Add options for spring damping
     public func animated(duration: TimeInterval) -> SignalProducer<Value, Error> {
         
-        return self.flatMap(.latest) { value in
+        return self.observe(on: UIScheduler()).flatMap(.latest) { value in
             
             SignalProducer<Value, Error>.init { observer, _ in
                 UIView.animate(withDuration: duration) { [weak observer] in
