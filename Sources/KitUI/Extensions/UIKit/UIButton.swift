@@ -79,7 +79,7 @@ extension UIButton {
     /// - note: **Mutating modifier** modifies the `UIButton`
     @discardableResult
     public func onPress(_ action: @escaping (UIButton) -> Void) -> Self {
-        self.reactive.onPress {
+        self.reactive.onPress { [unowned self] in
             action(self)
         }
     }
