@@ -17,7 +17,7 @@ extension UIView {
     /// - returns: A view
     func clearGlass(
         disable: some SignalProducerConvertible<Bool, Never> = false,
-    _ fallback: (UIView) -> UIView = { $0 }
+        _ fallback: (UIView) -> UIView = { $0 }
     ) -> UIView {
         if #available(iOS 26, *) {
             self.glassEffect(.clear, disable: disable)
@@ -68,7 +68,7 @@ extension UIView {
             if let spacing {
                 effect.spacing = spacing
             }
-            return self.visualEffect(effect)
+            return self.visualEffect(effect, disable: disable)
         } else {
             return fallback(self)
         } 
