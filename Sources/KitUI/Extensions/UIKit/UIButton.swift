@@ -83,6 +83,33 @@ extension UIButton {
             action(self)
         }
     }
+
+    /// Chainable method for setting an async action to run when the button is pressed
+    /// - parameter action: The action to run when the button is pressed, receives the button as a parameter. If the button has deallocated before the task is run, it will still run but
+    /// the button will be nil
+    /// - returns: The button
+    /// - note: **Mutating modifier** modifies the `UIButton`
+    @discardableResult
+    public func onPress(_ action: @escaping (UIButton?) async -> Void) -> Self {
+        self.onPress { [weak self] in
+            Task {
+                await action(self)
+            }
+        }
+    }
+
+    /// Chainable method for setting an async action to run when the button is pressed
+    /// - parameter action: The action to run when the button is pressed, receives the button as a parameter
+    /// - returns: The button
+    /// - note: **Mutating modifier** modifies the `UIButton`
+    @discardableResult
+    public func onPress(_ action: @escaping () async -> Void) -> Self {
+        self.onPress {
+            Task {
+                await action()
+            }
+        }
+    }
     
     /// Chainable method for setting the title of the button
     /// - parameter title: Reactive String to use as the title for the button
