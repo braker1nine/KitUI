@@ -386,6 +386,19 @@ extension UIView {
         return self
     }
     
+    /// Adds a tap gesture to the view, which will trigger the given action when tapped
+    /// - parameter callback: The action to trigger when the view is tapped
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
+    public func onTap(_ callback: @escaping () async -> Void) -> Self {
+        self.onTap {
+            Task {
+                await callback()
+            }
+        }
+    }
+    
     /// Chainable method for adding a long press gesture that runs the specified block
     /// - parameter callback: The action to trigger when the view is long pressed
     /// - returns: The current view
@@ -402,6 +415,19 @@ extension UIView {
             }
         self.addGestureRecognizer(gesture)
         return self
+    }
+    
+    /// Chainable method for adding a long press gesture that runs the specified block
+    /// - parameter callback: The action to trigger when the view is long pressed
+    /// - returns: The current view
+    /// - note: **Mutating Modifier** this modifies a property on the current view
+    @discardableResult
+    public func onLongPress(_ callback: @escaping (UILongPressGestureRecognizer) async -> Void) -> Self {
+        self.onLongPress { gesture in
+            Task {
+                await callback(gesture)
+            }
+        }
     }
 }
 
